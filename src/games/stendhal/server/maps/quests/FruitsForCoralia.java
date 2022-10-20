@@ -1,13 +1,23 @@
 package games.stendhal.server.maps.quests;
 
 import java.util.ArrayList;
+
+//
+
 import java.util.List;
 import java.util.Map;
+import java.util.Iterator;
+//import javax.swing.text.html.HTMLDocument.Iterator;
 
+import games.stendhal.common.Rand;
 import games.stendhal.common.grammar.Grammar;
+import games.stendhal.common.parser.Sentence;
+import games.stendhal.server.core.engine.SingletonRepository;
+import games.stendhal.server.entity.item.StackableItem;
 import games.stendhal.server.entity.npc.ChatAction;
 import games.stendhal.server.entity.npc.ConversationPhrases;
 import games.stendhal.server.entity.npc.ConversationStates;
+import games.stendhal.server.entity.npc.EventRaiser;
 import games.stendhal.server.entity.npc.SpeakerNPC;
 import games.stendhal.server.entity.npc.action.CollectRequestedItemsAction;
 import games.stendhal.server.entity.npc.action.EquipRandomAmountOfItemAction;
@@ -79,7 +89,7 @@ public class FruitsForCoralia extends AbstractQuest {
      * The delay between repeating quests.
      * 1 week
      */
-	private static final int REQUIRED_MINUTES = 1440;
+	private static final int REQUIRED_MINUTES = 2; //1440
 
     /**
 	 * Required items for the quest.
@@ -233,7 +243,17 @@ public class FruitsForCoralia extends AbstractQuest {
 			ConversationStates.ATTENDING,
 			"Hello again. If you've brought me some fresh fruits for my #hat, I'll happily take them!",
 			null);
-
+    	
+    	
+//    	npc.add(ConversationStates.QUESTION_1,
+//            	"everything",
+//            	new QuestActiveCondition(QUEST_SLOT),
+//            	ConversationStates.QUESTION_1,
+//            	"I got everything bitch!!",
+//            	null);
+    	
+    	// Perhaps player wants to give all the fruits at once
+    			
 
 
     	// specific fruit info
@@ -288,6 +308,49 @@ public class FruitsForCoralia extends AbstractQuest {
     }
 
 
+    private void check_all_fruits(final Player player, final EventRaiser npc) {
+
+    	final String quest_str= player.getQuest(QUEST_SLOT); //quest state
+    	final ItemCollection m_items = new ItemCollection(); //missing items
+    	m_items.addFromQuestStateString(quest_str);
+    	Iterator<Map.Entry<String, Integer>> itr = m_items.entrySet().iterator();
+    	while(itr.hasNext())
+    	{
+    		Map.Entry<String,Integer> each_item=itr.next();
+    	
+    		if (player.drop(each_item.getKey(),each_item.getValue())) 
+    			itr.remove(); // remove if present
+    	}
+    	if(!m_items.isEmpty())
+    	{
+    		npc.say("You didn't have all the Fruits I need. I still need "
+				                     + Grammar.enumerateCollection(m_items.toStringList()));
+    	    player.setQuest(QUEST_SLOT, m_items.toStringForQuestState());
+    		return;
+    	}
+    	else {
+    		player.setQuest(QUEST_SLOT, m_items.toStringForQuestState());
+    		player.addXP(300);;
+    		npc.say("My hat has never looked so delightful! Thank you ever so much! Here, take this as a reward.");
+    			player.addKarma(5);
+    		final StackableItem crepes =(StackableItem) SingletonRepository.getEntityManager().getItem("crepes suzette");
+    	    int amount;
+    	    
+    	    amount=Rand.rand(4) +1;
+    	    crepes.setQuantity(amount);
+    	    player.equipOrPutOnGround(crepes);
+    	    final StackableItem potion =(StackableItem) SingletonRepository.getEntityManager().getItem("minor potion");
+    	    int amount2;
+    	    amount2= Rand.rand(6) +2;
+    	    potion.setQuantity(amount2);
+    	    player.equipOrPutOnGround(potion);
+    	    
+    	    npc.setCurrentState(ConversationStates.ATTENDING);
+    		
+    	}
+ 		   		
+	}
+
     private void prepareBringingStep() {
 		final SpeakerNPC npc = npcs.get("Coralia");
 
@@ -341,6 +404,18 @@ public class FruitsForCoralia extends AbstractQuest {
     				completeAction,
     				ConversationStates.ATTENDING));
     	}
+    	
+    	npc.add(ConversationStates.QUESTION_2, "everything",
+				null,
+				ConversationStates.QUESTION_2,
+				null,
+				new ChatAction() {
+			    @Override
+				public void fire(final Player player, final Sentence sentence,
+					   final EventRaiser npc) {
+			    	check_all_fruits(player, npc);
+			}
+		});
     }
 
 	@Override
