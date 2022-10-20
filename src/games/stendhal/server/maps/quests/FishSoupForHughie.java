@@ -79,14 +79,7 @@ public class FishSoupForHughie extends AbstractQuest {
 	private static final int REQUIRED_MINUTES = 7 * MathHelper.MINUTES_IN_ONE_DAY;
 
 	private static final String QUEST_SLOT = "fishsoup_for_hughie";
-	
-	private static final String item = "fish soup";
-	
-	//initial
-	public String getItem (){
-	    return item;
-	}
-	
+
 	@Override
 	public String getSlotName() {
 		return QUEST_SLOT;
@@ -115,7 +108,7 @@ public class FishSoupForHughie extends AbstractQuest {
 			return res;
 		}
 		res.add("I do want to help Hughie and Anastasia.");
-		if (player.isEquipped(item) || isCompleted(player)) {
+		if (player.isEquipped("fish soup") || isCompleted(player)) {
 			res.add("I have fetched the fish soup needed to heal Hughie.");
 		}
 		if (isCompleted(player)) {
@@ -222,7 +215,7 @@ public class FishSoupForHughie extends AbstractQuest {
 		// player has fish soup and tells Anastasia, yes, it is for her
 
 		final List<ChatAction> reward = new LinkedList<ChatAction>();
-		reward.add(new DropItemAction(item));
+		reward.add(new DropItemAction("fish soup"));
 		reward.add(new IncreaseXPAction(200));
 		reward.add(new SetQuestToTimeStampAction(QUEST_SLOT));
 		reward.add(new IncreaseKarmaAction(5));
@@ -231,7 +224,7 @@ public class FishSoupForHughie extends AbstractQuest {
 			@Override
 			public void fire(final Player player, final Sentence sentence, final EventRaiser npc) {
 				final Item soup = SingletonRepository.getEntityManager()
-				.getItem(item);
+				.getItem("fish soup");
 				final IRPZone zone = SingletonRepository.getRPWorld().getZone("int_ados_farm_house_1");
 				// place on table
 				soup.setPosition(32, 5);
@@ -243,14 +236,14 @@ public class FishSoupForHughie extends AbstractQuest {
 
 		npc.add(ConversationStates.QUEST_ITEM_BROUGHT,
 			ConversationPhrases.YES_MESSAGES,
-			new PlayerHasItemWithHimCondition(item),
+			new PlayerHasItemWithHimCondition("fish soup"),
 			ConversationStates.ATTENDING, "Thank you! I will always be in your favour. I will feed it to Hughie when he wakes. Please take these potions, they did nothing for him.",
 			new MultipleActions(reward));
 
 		//player said the fish soup was for her but has dropped it from his bag or hands
 		npc.add(ConversationStates.QUEST_ITEM_BROUGHT,
 			ConversationPhrases.YES_MESSAGES,
-			new NotCondition(new PlayerHasItemWithHimCondition(item)),
+			new NotCondition(new PlayerHasItemWithHimCondition("fish soup")),
 			ConversationStates.ATTENDING,
 			"Oh! Where did you put the fish soup?",
 			null);
