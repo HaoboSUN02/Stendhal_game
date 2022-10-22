@@ -22,7 +22,7 @@ import utilities.QuestHelper;
 
 
 public class CheatingOnZekielsTest{
-	
+	//getting zone names and objects needed
 	private static final String ZONE_NAME = "int_semos_wizards_tower_basement";
 	private static final String ZONE_NAME_2 = "int_semos_wizards_tower_1";
 	private static final String ZONE_NAME_3 = "int_semos_wizards_tower_7";
@@ -34,27 +34,27 @@ public class CheatingOnZekielsTest{
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		//quest helper class method to set up before class
 		QuestHelper.setUpBeforeClass();
-		
-		
-
-		
 		
 	}
 	
 		@Before
 		public void setUp() {
+		//get world
 		MockStendlRPWorld.get();
 		
+		//get zone names
 		final StendhalRPZone zoneBasement = new StendhalRPZone(ZONE_NAME);
 		final StendhalRPZone zoneSpire = new StendhalRPZone(ZONE_NAME_3);
 		
-		
+		//initialise and configure zones of floors needed for quest logic
 		new WizardsGuardStatueNPC().configureZone(zoneBasement, null);
 		npc = SingletonRepository.getNPCList().get("Zekiel the guardian");
 		new WizardsGuardStatueSpireNPC().configureZone(zoneSpire, null);
 		final AbstractQuest quest = new ZekielsPracticalTestQuest();
 		
+		//get npc engine for FSM add quest to world
 		quest.addToWorld();
 		en = npc.getEngine();
 		
