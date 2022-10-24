@@ -6,13 +6,14 @@ import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Iterator;
+//import java.util.Iterator;
 //import javax.swing.text.html.HTMLDocument.Iterator;
 
 import games.stendhal.common.Rand;
 import games.stendhal.common.grammar.Grammar;
 import games.stendhal.common.parser.Sentence;
 import games.stendhal.server.core.engine.SingletonRepository;
+import games.stendhal.server.entity.item.Item;
 import games.stendhal.server.entity.item.StackableItem;
 import games.stendhal.server.entity.npc.ChatAction;
 import games.stendhal.server.entity.npc.ConversationPhrases;
@@ -298,7 +299,7 @@ public class FruitsForCoralia extends AbstractQuest {
             ConversationStates.QUESTION_1,
             "One of the huge watermelons from Kalavan gardens would make a nice new centrepiece for my hat.",
             null);
-
+   
     	npc.add(ConversationStates.QUESTION_1,
             "pomegranate",
             new QuestActiveCondition(QUEST_SLOT),
@@ -306,33 +307,79 @@ public class FruitsForCoralia extends AbstractQuest {
             "I've never seen pomegranate trees growing wild, but I heard of a man living south of the great river cultivating them in his garden.",
             null);
     }
+   
+	boolean dropItems(final Player player,String itemName, int itemCount) //This function was already present in different file....
+	{
+		boolean result = false;
 
+		// parse the quest state into a list of still missing items
+		final ItemCollection itemsTodo = new ItemCollection();
 
-    private void check_all_fruits(final Player player, final EventRaiser npc) {
+		itemsTodo.addFromQuestStateString(player.getQuest(QUEST_SLOT));
 
+		if (player.drop(itemName, itemCount)) {
+			if (itemsTodo.removeItem(itemName, itemCount)) {
+				result = true;
+			}
+		} else {
+			/*
+			 * handle the cases the player has part of the items or all divided
+			 * in different slots
+			 */
+			final List<Item> items = player.getAllEquipped(itemName);
+			if (items != null) {
+				for (final Item item : items) {
+					final int quantity = item.getQuantity();
+					final int n = Math.min(itemCount, quantity);
+
+					if (player.drop(itemName, n)) {
+						itemCount -= n;
+
+						if (itemsTodo.removeItem(itemName, n)) {
+							result = true;
+						}
+					}
+
+					if (itemCount == 0) {
+						result = true;
+						break;
+					}
+				}
+			}
+		}
+
+		 // update the quest state if some items are handed over
+		if (result) {
+			player.setQuest(QUEST_SLOT, itemsTodo.toStringForQuestState());
+		}
+
+		return result;
+	}
+    
+    
+
+    
+    private void check_all_fruits(final Player player,  EventRaiser npc) {
     	final String quest_str= player.getQuest(QUEST_SLOT); //quest state
     	final ItemCollection m_items = new ItemCollection(); //missing items
-    	m_items.addFromQuestStateString(quest_str);
-    	Iterator<Map.Entry<String, Integer>> itr = m_items.entrySet().iterator();
-    	while(itr.hasNext())
-    	{
-    		Map.Entry<String,Integer> each_item=itr.next();
+    	m_items.addFromQuestStateString(quest_str); //check which fruits
+    	for (final Map.Entry<String, Integer> item : m_items.entrySet()) {
+    		dropItems(player,item.getKey(),item.getValue());}
     	
-    		if (player.drop(each_item.getKey(),each_item.getValue())) 
-    			itr.remove(); // remove if present
+    	final ItemCollection missing_Items = new ItemCollection(); 
+    	missing_Items.addFromQuestStateString(player.getQuest(QUEST_SLOT));
+    	System.out.println(missing_Items);
+    	if(missing_Items.size() > 0) {
+    		npc.say("I still need "
+					+ Grammar.enumerateCollection(missing_Items.toStringListWithHash())
+					+ ". Have you brought any or #everything?");
     	}
-    	if(!m_items.isEmpty())
-    	{
-    		npc.say("You didn't have all the Fruits I need. I still need "
-				                     + Grammar.enumerateCollection(m_items.toStringList()));
-    	    player.setQuest(QUEST_SLOT, m_items.toStringForQuestState());
-    		return;
-    	}
+
     	else {
-    		player.setQuest(QUEST_SLOT, m_items.toStringForQuestState());
+    		player.setQuest(QUEST_SLOT, missing_Items.toStringForQuestState());
     		player.addXP(300);;
     		npc.say("My hat has never looked so delightful! Thank you ever so much! Here, take this as a reward.");
-    			player.addKarma(5);
+    		player.addKarma(5);
     		final StackableItem crepes =(StackableItem) SingletonRepository.getEntityManager().getItem("crepes suzette");
     	    int amount;
     	    
@@ -344,7 +391,6 @@ public class FruitsForCoralia extends AbstractQuest {
     	    amount2= Rand.rand(6) +2;
     	    potion.setQuantity(amount2);
     	    player.equipOrPutOnGround(potion);
-    	    
     	    npc.setCurrentState(ConversationStates.ATTENDING);
     		
     	}
@@ -360,7 +406,7 @@ public class FruitsForCoralia extends AbstractQuest {
     		new QuestActiveCondition(QUEST_SLOT),
     		ConversationStates.QUESTION_2,
     		null,
-    		new SayRequiredItemsFromCollectionAction(QUEST_SLOT, "I'd still like [items]. Have you brought any?"));
+    		new SayRequiredItemsFromCollectionAction(QUEST_SLOT, "I'd still like [items]. Have you brought any or #everything?"));
 
     	// player says he didn't bring any items
 		npc.add(ConversationStates.QUESTION_2,
