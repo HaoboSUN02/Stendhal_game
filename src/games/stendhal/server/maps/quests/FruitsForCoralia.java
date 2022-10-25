@@ -1,13 +1,24 @@
 package games.stendhal.server.maps.quests;
 
 import java.util.ArrayList;
+
+//
+
 import java.util.List;
 import java.util.Map;
+//import java.util.Iterator;
+//import javax.swing.text.html.HTMLDocument.Iterator;
 
+import games.stendhal.common.Rand;
 import games.stendhal.common.grammar.Grammar;
+import games.stendhal.common.parser.Sentence;
+import games.stendhal.server.core.engine.SingletonRepository;
+import games.stendhal.server.entity.item.Item;
+import games.stendhal.server.entity.item.StackableItem;
 import games.stendhal.server.entity.npc.ChatAction;
 import games.stendhal.server.entity.npc.ConversationPhrases;
 import games.stendhal.server.entity.npc.ConversationStates;
+import games.stendhal.server.entity.npc.EventRaiser;
 import games.stendhal.server.entity.npc.SpeakerNPC;
 import games.stendhal.server.entity.npc.action.CollectRequestedItemsAction;
 import games.stendhal.server.entity.npc.action.EquipRandomAmountOfItemAction;
@@ -30,6 +41,7 @@ import games.stendhal.server.entity.npc.condition.QuestNotStartedCondition;
 import games.stendhal.server.entity.npc.condition.QuestStateStartsWithCondition;
 import games.stendhal.server.entity.npc.condition.TimePassedCondition;
 import games.stendhal.server.entity.player.Player;
+//import games.stendhal.server.entity.status.PoisonStatus;
 import games.stendhal.server.maps.Region;
 import games.stendhal.server.util.ItemCollection;
 
@@ -79,7 +91,7 @@ public class FruitsForCoralia extends AbstractQuest {
      * The delay between repeating quests.
      * 1 week
      */
-	private static final int REQUIRED_MINUTES = 1440;
+	private static final int REQUIRED_MINUTES = 2; //1440
 
     /**
 	 * Required items for the quest.
@@ -233,7 +245,10 @@ public class FruitsForCoralia extends AbstractQuest {
 			ConversationStates.ATTENDING,
 			"Hello again. If you've brought me some fresh fruits for my #hat, I'll happily take them!",
 			null);
+    	
 
+    	// Perhaps player wants to give all the fruits at once
+    			
 
 
     	// specific fruit info
@@ -278,7 +293,7 @@ public class FruitsForCoralia extends AbstractQuest {
             ConversationStates.QUESTION_1,
             "One of the huge watermelons from Kalavan gardens would make a nice new centrepiece for my hat.",
             null);
-
+   
     	npc.add(ConversationStates.QUESTION_1,
             "pomegranate",
             new QuestActiveCondition(QUEST_SLOT),
@@ -286,7 +301,97 @@ public class FruitsForCoralia extends AbstractQuest {
             "I've never seen pomegranate trees growing wild, but I heard of a man living south of the great river cultivating them in his garden.",
             null);
     }
+   
+	boolean dropItems(final Player player,String itemName, int itemCount) //This function was already present in different file....
+	{
+		boolean result = false;
 
+		// parse the quest state into a list of still missing items
+		final ItemCollection itemsTodo = new ItemCollection();
+
+		itemsTodo.addFromQuestStateString(player.getQuest(QUEST_SLOT));
+
+		if (player.drop(itemName, itemCount)) {
+			if (itemsTodo.removeItem(itemName, itemCount)) {
+				result = true;
+			}
+		} else {
+			/*
+			 * handle the cases the player has part of the items or all divided
+			 * in different slots
+			 */
+			final List<Item> items = player.getAllEquipped(itemName);
+			if (items != null) {
+				for (final Item item : items) {
+					final int quantity = item.getQuantity();
+					final int n = Math.min(itemCount, quantity);
+
+					if (player.drop(itemName, n)) {
+						itemCount -= n;
+
+						if (itemsTodo.removeItem(itemName, n)) {
+							result = true;
+						}
+					}
+
+					if (itemCount == 0) {
+						result = true;
+						break;
+					}
+				}
+			}
+		}
+
+		 // update the quest state if some items are handed over
+		if (result) {
+			player.setQuest(QUEST_SLOT, itemsTodo.toStringForQuestState());
+		}
+
+		return result;
+	}
+    
+    
+
+    
+    private void check_all_fruits(final Player player,  EventRaiser npc) {
+    	final String quest_str= player.getQuest(QUEST_SLOT); //quest state
+    	final ItemCollection m_items = new ItemCollection(); //missing items
+    	m_items.addFromQuestStateString(quest_str); //check which fruits
+    	for (final Map.Entry<String, Integer> item : m_items.entrySet()) {
+    		dropItems(player,item.getKey(),item.getValue());}
+    	
+    	final ItemCollection missing_Items = new ItemCollection(); 
+    	missing_Items.addFromQuestStateString(player.getQuest(QUEST_SLOT));
+    	//System.out.println(missing_Items);
+    	if(missing_Items.size() > 0) {
+    		npc.say("I still need "
+					+ Grammar.enumerateCollection(missing_Items.toStringListWithHash())
+					+ ". Have you brought any or #everything?");
+    	}
+    	else{
+    		
+    		player.addXP(300);;
+    		npc.say("My hat has never looked so delightful! Thank you ever so much! Here, take this as a reward.");
+    		player.setQuest(QUEST_SLOT,"done;" + System.currentTimeMillis());
+    		player.addKarma(5);
+//    		player.notifyWorldAboutChanges();
+    		final StackableItem crepes =(StackableItem) SingletonRepository.getEntityManager().getItem("crepes suzette");
+    	    int amount;
+    	    
+    	    amount=Rand.rand(4) +1;
+    	    crepes.setQuantity(amount);
+    	    player.equipOrPutOnGround(crepes);
+    	    final StackableItem potion =(StackableItem) SingletonRepository.getEntityManager().getItem("minor potion");
+    	    int amount2;
+    	    amount2= Rand.rand(6) +2;
+    	    crepes.setQuantity(amount2);
+    	    player.equipOrPutOnGround(potion);
+    	    npc.setCurrentState(ConversationStates.ATTENDING);
+
+    		
+    	}
+ 		   		
+	}
 
     private void prepareBringingStep() {
 		final SpeakerNPC npc = npcs.get("Coralia");
@@ -297,7 +402,7 @@ public class FruitsForCoralia extends AbstractQuest {
     		new QuestActiveCondition(QUEST_SLOT),
     		ConversationStates.QUESTION_2,
     		null,
-    		new SayRequiredItemsFromCollectionAction(QUEST_SLOT, "I'd still like [items]. Have you brought any?"));
+    		new SayRequiredItemsFromCollectionAction(QUEST_SLOT, "I'd still like [items]. Have you brought any or #everything?"));
 
     	// player says he didn't bring any items
 		npc.add(ConversationStates.QUESTION_2,
@@ -341,6 +446,18 @@ public class FruitsForCoralia extends AbstractQuest {
     				completeAction,
     				ConversationStates.ATTENDING));
     	}
+    	
+    	npc.add(ConversationStates.QUESTION_2, "everything",
+			null,
+				ConversationStates.QUESTION_2,
+			null,
+			new ChatAction() {
+			    @Override
+			public void fire(final Player player, final Sentence sentence,
+				   final EventRaiser npc) {
+			    	check_all_fruits(player, npc);
+		}
+		});
     }
 
 	@Override
@@ -348,3 +465,6 @@ public class FruitsForCoralia extends AbstractQuest {
 		return "Coralia";
 	}
 }
+
+// . Have you brought any or #everything?
+
