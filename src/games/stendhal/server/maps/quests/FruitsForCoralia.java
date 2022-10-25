@@ -91,7 +91,7 @@ public class FruitsForCoralia extends AbstractQuest {
      * The delay between repeating quests.
      * 1 week
      */
-	private static final int REQUIRED_MINUTES = 2; //1440
+	private static final int REQUIRED_MINUTES = 1440; //1440
 
     /**
 	 * Required items for the quest.
