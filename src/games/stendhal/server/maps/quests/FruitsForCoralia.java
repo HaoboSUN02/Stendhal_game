@@ -41,6 +41,7 @@ import games.stendhal.server.entity.npc.condition.QuestNotStartedCondition;
 import games.stendhal.server.entity.npc.condition.QuestStateStartsWithCondition;
 import games.stendhal.server.entity.npc.condition.TimePassedCondition;
 import games.stendhal.server.entity.player.Player;
+//import games.stendhal.server.entity.status.PoisonStatus;
 import games.stendhal.server.maps.Region;
 import games.stendhal.server.util.ItemCollection;
 
@@ -245,14 +246,7 @@ public class FruitsForCoralia extends AbstractQuest {
 			"Hello again. If you've brought me some fresh fruits for my #hat, I'll happily take them!",
 			null);
     	
-    	
-//    	npc.add(ConversationStates.QUESTION_1,
-//            	"everything",
-//            	new QuestActiveCondition(QUEST_SLOT),
-//            	ConversationStates.QUESTION_1,
-//            	"I got everything bitch!!",
-//            	null);
-    	
+
     	// Perhaps player wants to give all the fruits at once
     			
 
@@ -368,18 +362,19 @@ public class FruitsForCoralia extends AbstractQuest {
     	
     	final ItemCollection missing_Items = new ItemCollection(); 
     	missing_Items.addFromQuestStateString(player.getQuest(QUEST_SLOT));
-    	System.out.println(missing_Items);
+    	//System.out.println(missing_Items);
     	if(missing_Items.size() > 0) {
     		npc.say("I still need "
 					+ Grammar.enumerateCollection(missing_Items.toStringListWithHash())
 					+ ". Have you brought any or #everything?");
     	}
-
-    	else {
-    		player.setQuest(QUEST_SLOT, missing_Items.toStringForQuestState());
+    	else{
+    		
     		player.addXP(300);;
     		npc.say("My hat has never looked so delightful! Thank you ever so much! Here, take this as a reward.");
+    		player.setQuest(QUEST_SLOT,"done;" + System.currentTimeMillis());
     		player.addKarma(5);
+//    		player.notifyWorldAboutChanges();
     		final StackableItem crepes =(StackableItem) SingletonRepository.getEntityManager().getItem("crepes suzette");
     	    int amount;
     	    
@@ -389,9 +384,10 @@ public class FruitsForCoralia extends AbstractQuest {
     	    final StackableItem potion =(StackableItem) SingletonRepository.getEntityManager().getItem("minor potion");
     	    int amount2;
     	    amount2= Rand.rand(6) +2;
-    	    potion.setQuantity(amount2);
+    	    crepes.setQuantity(amount2);
     	    player.equipOrPutOnGround(potion);
     	    npc.setCurrentState(ConversationStates.ATTENDING);
+
     		
     	}
  		   		
@@ -452,15 +448,15 @@ public class FruitsForCoralia extends AbstractQuest {
     	}
     	
     	npc.add(ConversationStates.QUESTION_2, "everything",
-				null,
+			null,
 				ConversationStates.QUESTION_2,
-				null,
-				new ChatAction() {
+			null,
+			new ChatAction() {
 			    @Override
-				public void fire(final Player player, final Sentence sentence,
-					   final EventRaiser npc) {
+			public void fire(final Player player, final Sentence sentence,
+				   final EventRaiser npc) {
 			    	check_all_fruits(player, npc);
-			}
+		}
 		});
     }
 
@@ -469,3 +465,6 @@ public class FruitsForCoralia extends AbstractQuest {
 		return "Coralia";
 	}
 }
+
+// . Have you brought any or #everything?
+
