@@ -17,9 +17,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import games.stendhal.common.Direction;
+import games.stendhal.common.parser.Sentence;
 import games.stendhal.server.entity.npc.ConversationPhrases;
 import games.stendhal.server.entity.npc.ConversationStates;
+import games.stendhal.server.entity.npc.EventRaiser;
 import games.stendhal.server.entity.npc.SpeakerNPC;
+import games.stendhal.server.entity.npc.ChatAction;
 import games.stendhal.server.entity.npc.action.DropItemAction;
 import games.stendhal.server.entity.npc.action.ExamineChatAction;
 import games.stendhal.server.entity.npc.action.IncreaseKarmaAction;
@@ -37,6 +40,9 @@ import games.stendhal.server.entity.npc.condition.QuestInStateCondition;
 import games.stendhal.server.entity.npc.condition.QuestNotStartedCondition;
 import games.stendhal.server.entity.player.Player;
 import games.stendhal.server.maps.Region;
+import games.stendhal.server.core.engine.SingletonRepository;
+import games.stendhal.server.core.engine.StendhalRPZone;
+import games.stendhal.server.entity.item.Item;
 
 /**
  * QUEST: Zekiels practical test
@@ -74,6 +80,9 @@ public class ZekielsPracticalTestQuest extends AbstractQuest {
 	private static final int REQUIRED_BEESWAX = 6;
 
 	private static final String QUEST_SLOT = "zekiels_practical_test";
+	
+	private static StendhalRPZone zone = SingletonRepository.getRPWorld().getZone("int_semos_wizards_tower_1");
+	
 
 	@Override
 	public String getSlotName() {
@@ -201,7 +210,33 @@ public class ZekielsPracticalTestQuest extends AbstractQuest {
 			ConversationStates.ATTENDING,
 			"Greetings! You have so far failed the practical test. Tell me, if you want me to #send you on it again " +
 			"right now, or if there is anything you want to #learn about it first.",
-			new SetQuestAction(QUEST_SLOT, "candles_done"));
+			//state in fsm where you have teleported back after placing candle
+			new MultipleActions(new SetQuestAction(QUEST_SLOT, "candles_done"),
+					new ChatAction() {
+						//new action for bug fix
+						@Override
+						public void fire(final Player player, final Sentence sentence, final EventRaiser npc) {
+							npc.say("did you leave a candle up there?");
+							if (zone != null) {
+								checkForCandles(zone);
+							}
+							
+						}
+			}));
+		
+		
+		
+			
+	}
+	
+	public void checkForCandles(StendhalRPZone zone) {
+		//loop through items on ground and check if any are candles, if so, remove
+		for (Item item: zone.getItemsOnGround()) {
+			if (item.getName().equals("candle")) {
+				zone.remove(item);
+			}
+		}
+		return;
 	}
 
 	private void practicalTestStep() {
