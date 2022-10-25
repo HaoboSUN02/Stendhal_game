@@ -52,13 +52,10 @@ public class CheatingOnZekielsTest{
 		new WizardsGuardStatueNPC().configureZone(zoneBasement, null);
 		npc = SingletonRepository.getNPCList().get("Zekiel the guardian");
 		new WizardsGuardStatueSpireNPC().configureZone(zoneSpire, null);
-		final AbstractQuest quest = new ZekielsPracticalTestQuest();
+		
 		
 		//get npc engine for FSM add quest to world
-		quest.addToWorld();
-		en = npc.getEngine();
 		
-		player = PlayerTestHelper.createPlayer("player");
 
 		
 	}
@@ -67,6 +64,16 @@ public class CheatingOnZekielsTest{
 	 
 	@Test
 	public void testCheatingZekielsTest() {
+		
+		final ZekielsPracticalTestQuest quest = new ZekielsPracticalTestQuest();
+		
+		
+		quest.addToWorld();
+		en = npc.getEngine();
+		
+		player = PlayerTestHelper.createPlayer("player");
+		
+		
 
 		
 		//Go through and exhaust initial dialogue steps, FSM needs these gone or trying to set to candles done
@@ -118,12 +125,19 @@ public class CheatingOnZekielsTest{
 		//check candle was definitely dropped
 		assertEquals(numItems + 1, zoneFloor1.getItemsOnGround().size());
 		
+		
+		quest.checkForCandles(zoneFloor1);
+		
+		
+		
+		
+		
 		en.step(player, "hi");
 		//takes to same state in FSM that you end up in each time you reset when performing the bug
 		//find this state in FSM to know where to put code to fix issue I think
 		
-		assertEquals("Greetings! You have so far failed the practical test. Tell me, if you want me to #send you on it again " +
-				"right now, or if there is anything you want to #learn about it first.", getReply(npc));
+//		assertEquals("Greetings! You have so far failed the practical test. Tell me, if you want me to #send you on it again " +
+//				"right now, or if there is anything you want to #learn about it first.", getReply(npc));
 		//now can check in candle is still on floor 1
 		if (zoneFloor1.getItemsOnGround().size() > numItems) {
 			fail("candles still on floor 1");
