@@ -148,6 +148,7 @@ public class CoalForHaunchy extends AbstractQuest {
 		final List<String> triggers = new ArrayList<String>();
 		triggers.add("coal");
 		triggers.add("stone coal");
+		triggers.add("charcoal"); //added charcoal to triggers
 		triggers.addAll(ConversationPhrases.QUEST_MESSAGES);
 
 		// player asks about quest or says coal when they are supposed to bring some coal and they have it
@@ -158,6 +159,30 @@ public class CoalForHaunchy extends AbstractQuest {
 				null,
 				new MultipleActions(
 						new DropItemAction("coal",25),
+						new IncreaseXPAction(200),
+						new IncreaseKarmaAction(20),
+						new ChatAction() {
+							@Override
+							public void fire(final Player player,
+									final Sentence sentence,
+									final EventRaiser npc) {
+								int grilledsteakAmount = Rand.rand(4) + 1;
+								new EquipItemAction("grilled steak", grilledsteakAmount, true).fire(player, sentence, npc);
+								npc.say("Thank you!! Take " + Grammar.thisthese(grilledsteakAmount) + " " +
+										Grammar.quantityNumberStrNoun(grilledsteakAmount, "grilled steak") + " from my grill!");
+								new SetQuestAndModifyKarmaAction(getSlotName(), "waiting;"
+										+ System.currentTimeMillis(), 10.0).fire(player, sentence, npc);
+							}
+						}));
+		
+		//player has charcoal 
+		npc.add(
+				ConversationStates.ATTENDING, triggers,
+				new AndCondition(new QuestInStateCondition(QUEST_SLOT, "start"), new PlayerHasItemWithHimCondition("charcoal",25)),
+				ConversationStates.ATTENDING,
+				null,
+				new MultipleActions(
+						new DropItemAction("charcoal",25),
 						new IncreaseXPAction(200),
 						new IncreaseKarmaAction(20),
 						new ChatAction() {
@@ -184,7 +209,7 @@ public class CoalForHaunchy extends AbstractQuest {
 
 		npc.add(
 				ConversationStates.ATTENDING,
-				Arrays.asList("coal","stone coal"),
+				Arrays.asList("coal","stone coal","charcoal"), //added charcoal to list
 				new QuestNotInStateCondition(QUEST_SLOT,"start"),
 				ConversationStates.ATTENDING,
 				"Sometime you could do me a #favour ...", null);
