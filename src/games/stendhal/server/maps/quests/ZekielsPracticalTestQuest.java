@@ -40,11 +40,8 @@ import games.stendhal.server.entity.npc.condition.QuestInStateCondition;
 import games.stendhal.server.entity.npc.condition.QuestNotStartedCondition;
 import games.stendhal.server.entity.player.Player;
 import games.stendhal.server.maps.Region;
-import games.stendhal.server.maps.semos.wizardstower.FirstFloorCreatures;
-import games.stendhal.server.util.TimeUtil;
 import games.stendhal.server.core.engine.SingletonRepository;
 import games.stendhal.server.core.engine.StendhalRPZone;
-import games.stendhal.server.core.engine.StendhalRPWorld;
 import games.stendhal.server.entity.item.Item;
 
 /**

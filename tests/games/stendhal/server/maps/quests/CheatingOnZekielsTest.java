@@ -125,20 +125,14 @@ public class CheatingOnZekielsTest{
 		//check candle was definitely dropped
 		assertEquals(numItems + 1, zoneFloor1.getItemsOnGround().size());
 		
-		
+		//need to call this function in the quest directly as needs the correct zone as paramater
+		//if this isn't done we would get null exceptions as quest tests use mockstendhalrpworld so if we didnt input 
+		//that zone then the function would try to use regular stendhalrpworld which has not been generated for the test
 		quest.checkForCandles(zoneFloor1);
 		
-		
-		
-		
-		
 		en.step(player, "hi");
-		//takes to same state in FSM that you end up in each time you reset when performing the bug
-		//find this state in FSM to know where to put code to fix issue I think
 		
-//		assertEquals("Greetings! You have so far failed the practical test. Tell me, if you want me to #send you on it again " +
-//				"right now, or if there is anything you want to #learn about it first.", getReply(npc));
-		//now can check in candle is still on floor 1
+		//if candles havent been removed from the ground fail test
 		if (zoneFloor1.getItemsOnGround().size() > numItems) {
 			fail("candles still on floor 1");
 		}
