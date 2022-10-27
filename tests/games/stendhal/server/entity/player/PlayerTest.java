@@ -212,11 +212,11 @@ public class PlayerTest {
 		final Player me =PlayerTestHelper.createPlayer("testdummy");
 		zone.add(me);
 		
-		//final Sheep sheep =new Sheep(me);
-		//zone.add(sheep);
+		final Sheep sheep =new Sheep(me);
+		zone.add(sheep);
 		
-		//me.setPosition(850,850);
-		//sheep.setPosition(0, 0);
+		me.setPosition(850,850);
+		sheep.setPosition(0, 0);
 		
 		me.isZoneChangeAllowed();
 		assertEquals("Your sheep is too far away, so you can't move between zones", PlayerTestHelper.getPrivateReply(me));
