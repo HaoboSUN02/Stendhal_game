@@ -1012,7 +1012,7 @@ public class Player extends DressedEntity implements UseListener {
 	public void sendPrivateText(final String text) {
 		sendPrivateText(getServerNotificationType(clientVersion), text);
 	}
-
+	
 	/**
 	 * Sends a message that only this entity can read.
 	 *
@@ -1681,6 +1681,7 @@ public class Player extends DressedEntity implements UseListener {
 
 		if (sheep != null) {
 			if (squaredDistance(sheep) > 7 * 7) {
+				sendPrivateText("Your sheep is too far away, so you can't move between zones");
 				return false;
 			}
 		}

@@ -21,6 +21,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+
 
 import java.util.HashMap;
 
@@ -34,6 +36,7 @@ import games.stendhal.common.constants.Nature;
 import games.stendhal.server.core.engine.StendhalRPZone;
 import games.stendhal.server.entity.Entity;
 import games.stendhal.server.entity.Outfit;
+import games.stendhal.server.entity.creature.Sheep;
 import games.stendhal.server.entity.item.Item;
 import games.stendhal.server.entity.status.StatusType;
 import games.stendhal.server.maps.MockStendhalRPRuleProcessor;
@@ -198,6 +201,29 @@ public class PlayerTest {
 		assertThat(description, is(expectedDescription));
 	}
 
+	/**
+	 * Tests for SheepBeingAwayMessage
+	 */
+	@Test
+	public void SheepBeingAwayMessage() {
+		zone = new StendhalRPZone("testdummy");
+		MockStendlRPWorld.get().addRPZone(zone);
+		
+		final Player me =PlayerTestHelper.createPlayer("testdummy");
+		zone.add(me);
+		
+		//final Sheep sheep =new Sheep(me);
+		//zone.add(sheep);
+		
+		//me.setPosition(850,850);
+		//sheep.setPosition(0, 0);
+		
+		me.isZoneChangeAllowed();
+		assertEquals("Your sheep is too far away, so you can't move between zones", PlayerTestHelper.getPrivateReply(me));
+		
+	}
+
+//	
 	/**
 	 * Tests for isGhost.
 	 */
