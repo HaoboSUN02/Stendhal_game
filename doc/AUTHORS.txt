@@ -201,3 +201,17 @@ Notable contributors:
 - SnowFlake
   · Maps maker
   · NPCs
+  
+- Haobo Sun
+  · Coder
+- Yuwei Sang
+  · Coder
+- Divya Radhakrishnan Nair
+  · Coder
+- Isabel Draper
+  · Coder
+- Sambbhav Khare
+  · Coder
+- Gabriel Downes
+  · Coder
+
