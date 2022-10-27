@@ -33,6 +33,7 @@ import games.stendhal.server.entity.npc.action.SayTimeRemainingAction;
 import games.stendhal.server.entity.npc.action.SetQuestAndModifyKarmaAction;
 import games.stendhal.server.entity.npc.condition.AndCondition;
 import games.stendhal.server.entity.npc.condition.NotCondition;
+import games.stendhal.server.entity.npc.condition.OrCondition;
 import games.stendhal.server.entity.npc.condition.PlayerHasItemWithHimCondition;
 import games.stendhal.server.entity.npc.condition.QuestCompletedCondition;
 import games.stendhal.server.entity.npc.condition.QuestInStateCondition;
@@ -98,6 +99,14 @@ public class CoalForHaunchy extends AbstractQuest {
 				ConversationStates.QUEST_OFFERED,
 				"Coal isn't easy to find. You normally can find it somewhere in the ground but perhaps you are lucky and find some in the old Semos Mine tunnels...",
 				null);
+		
+		npc.add(
+				ConversationStates.QUEST_OFFERED,
+				Arrays.asList("charcoal"),
+				null,
+				ConversationStates.QUEST_OFFERED,
+				"Charoal isn't easy to find. You normally can find it somewhere in the ground but perhaps you are lucky and find some in the old Semos Mine tunnels...",
+				null);
 
         // player has completed the quest (doesn't happen here)
 		npc.add(ConversationStates.ATTENDING,
@@ -127,7 +136,7 @@ public class CoalForHaunchy extends AbstractQuest {
 		npc.add(ConversationStates.QUEST_OFFERED,
 				ConversationPhrases.YES_MESSAGES, null,
 				ConversationStates.ATTENDING,
-				"Thank you! If you have found 25 pieces, say #coal to me so I know you have it. I'll be sure to give you a nice and tasty reward.",
+				"Thank you! If you have found 25 pieces, say #coal or #charcoal to me so I know you have it. I'll be sure to give you a nice and tasty reward.",
 				new SetQuestAndModifyKarmaAction(QUEST_SLOT, "start", 5));
 
 		// Player says no, they've lost karma.
@@ -148,12 +157,20 @@ public class CoalForHaunchy extends AbstractQuest {
 		final List<String> triggers = new ArrayList<String>();
 		triggers.add("coal");
 		triggers.add("stone coal");
-		triggers.add("charcoal"); //added charcoal to triggers
+		triggers.add("charcoal");
 		triggers.addAll(ConversationPhrases.QUEST_MESSAGES);
+		
+		final List<String> triggerscharcoal = new ArrayList<String>();
+		triggerscharcoal.add("charcoal"); //added charcoal to triggers
+		triggerscharcoal.addAll(ConversationPhrases.QUEST_MESSAGES);
+		
+		final List<String> triggerscoal = new ArrayList<String>();
+		triggerscoal.add("coal"); //added coal to triggers
+		triggerscoal.addAll(ConversationPhrases.QUEST_MESSAGES);
 
 		// player asks about quest or says coal when they are supposed to bring some coal and they have it
 		npc.add(
-				ConversationStates.ATTENDING, triggers,
+				ConversationStates.ATTENDING, triggerscoal,
 				new AndCondition(new QuestInStateCondition(QUEST_SLOT, "start"), new PlayerHasItemWithHimCondition("coal",25)),
 				ConversationStates.ATTENDING,
 				null,
@@ -176,8 +193,8 @@ public class CoalForHaunchy extends AbstractQuest {
 						}));
 		
 		//player has charcoal 
-		npc.add(
-				ConversationStates.ATTENDING, triggers,
+		npc.add( 
+				ConversationStates.ATTENDING, triggerscharcoal,
 				new AndCondition(new QuestInStateCondition(QUEST_SLOT, "start"), new PlayerHasItemWithHimCondition("charcoal",25)),
 				ConversationStates.ATTENDING,
 				null,
@@ -198,11 +215,11 @@ public class CoalForHaunchy extends AbstractQuest {
 										+ System.currentTimeMillis(), 10.0).fire(player, sentence, npc);
 							}
 						}));
-
+		
 		// player asks about quest or says coal when they are supposed to bring some coal and they don't have it
 		npc.add(
 				ConversationStates.ATTENDING, triggers,
-				new AndCondition(new QuestInStateCondition(QUEST_SLOT, "start"), new NotCondition(new PlayerHasItemWithHimCondition("coal",25))),
+				new AndCondition(new QuestInStateCondition(QUEST_SLOT, "start"), new NotCondition(new OrCondition(new PlayerHasItemWithHimCondition("coal",25), new PlayerHasItemWithHimCondition("charcoal",25)))),
 				ConversationStates.ATTENDING,
 				"You don't have the coal amount which I need yet. Go and pick some more pieces up, please.",
 				null);
