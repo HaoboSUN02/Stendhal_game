@@ -11,6 +11,7 @@ Changelog
 - Lieutenant Drilenun now gives the right suggestion
 - Haunchy accept charcoal
 - The sheep and pet now follow the character
+- Karl now not ignore "horse hair"
 
 
 1.40
