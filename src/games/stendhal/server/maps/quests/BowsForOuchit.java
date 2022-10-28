@@ -206,6 +206,23 @@ ask for horse hair.
 				new EquipItemAction("horse hair"));
 
 	}
+	
+	// use this new function to add the conservation with the npc karl,
+	// it is quite similar to the previous getHairStep function but using a new item- horse hair
+	public void getHairStep_2() {
+		
+		SpeakerNPC npc = npcs.get("Karl");
+
+		npc.add(ConversationStates.ATTENDING,
+				"horse hair",
+				new AndCondition(new QuestInStateCondition(QUEST_SLOT,"hair"),
+								new NotCondition (new PlayerHasItemWithHimCondition("horse hair",1))),
+				ConversationStates.ATTENDING,
+				"Hello, hello! Ouchit needs more horse hairs from my horses? " +
+				"No problem, here you are. Send Ouchit greetings from me.",
+				new EquipItemAction("horse hair"));
+		
+	}
 
 	public void bringHairStep() {
 
@@ -275,6 +292,7 @@ and ask for horse hair.
 		prepareQuestStep();
 		bringWoodStep();
 		getHairStep();
+		getHairStep_2(); // new function
 		bringHairStep();
 		fillQuestInfo(
 				"Bows for Ouchit",
