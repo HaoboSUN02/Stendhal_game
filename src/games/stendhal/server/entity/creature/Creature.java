@@ -916,8 +916,14 @@ public class Creature extends NPC {
 				strategy.getBetterAttackPosition(this);
 				this.applyMovement();
 				if (strategy.canAttackNow(this)) {
+					if(this.getAttackTarget().isEquipped("pipe_of_charm")) {
+						stopAttack();
+					}
+					else {
+					
 					strategy.attack(this);
 					this.makeNoiseChance(100, "fight");
+					}
 				} else {
 					// can't attack and trying to find better position
 					// treat it as creature follows player.

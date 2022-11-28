@@ -129,6 +129,8 @@ public final class EntityMap {
 		register("item", "box", null, Box.class);
 		register("item", "ring", null, UseableRing.class);
 		register("item", "ring", "emerald-ring", BreakableRing.class);
+		register("item", " ring", "pipe_of_charm", BreakableRing.class);
+		
 
 		register("item", "drink", null, UseableItem.class);
 		register("item", "flower", null, StackableItem.class);
