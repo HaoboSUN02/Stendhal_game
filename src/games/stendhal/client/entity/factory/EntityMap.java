@@ -129,7 +129,10 @@ public final class EntityMap {
 		register("item", "box", null, Box.class);
 		register("item", "ring", null, UseableRing.class);
 		register("item", "ring", "emerald-ring", BreakableRing.class);
-
+		
+		// Need to register  in Map pipe of type ring as it works similar to ring of life 
+		register("item", " ring", "pipe_of_charm", BreakableRing.class);
+		
 		register("item", "drink", null, UseableItem.class);
 		register("item", "flower", null, StackableItem.class);
 		register("item", "food", null, UseableItem.class);

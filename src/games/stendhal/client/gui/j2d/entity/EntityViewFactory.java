@@ -203,6 +203,9 @@ public class EntityViewFactory {
 		register("item", "ring", null, Ring2DView.class);
 		register("item", "ring", "emerald-ring", BreakableRing2DView.class);
 		register("item", "ring", "wedding", UseableRing2DView.class);
+		
+		// We also need to register pipe  here to get the 2D view
+		register("item", "ring", "pipe_of_charm", UseableRing2DView.class);
 
 		register("useable_entity", null, null, UseableEntity2DView.class);
 
