@@ -12,33 +12,40 @@
  ***************************************************************************/
 package games.stendhal.server.entity.item;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+
+//import static org.hamcrest.CoreMatchers.is;
+//import static org.junit.Assert.assertThat;
+//import static org.junit.Assert.assertFalse;
+//import static org.junit.Assert.assertTrue;
+//import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.Before;
+//import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import games.stendhal.server.entity.RPEntity;
+//import games.stendhal.server.entity.RPEntity;
 import games.stendhal.server.entity.player.Player;
 import games.stendhal.server.entity.creature.*;
 import games.stendhal.server.maps.MockStendlRPWorld;
 import utilities.PlayerTestHelper;
+import games.stendhal.server.core.engine.SingletonRepository;
 import games.stendhal.server.core.engine.StendhalRPZone;
+import games.stendhal.server.core.rp.StendhalRPAction;
 
-import games.stendhal.server.maps.ados.tavern.BarMaidNPC;
 import marauroa.common.Log4J;
-
+import utilities.RPClass.CreatureTestHelper;
 import utilities.RPClass.ItemTestHelper;
 
 public class PipeTest {
-	private Player player = null;
-//	private Creature creature =null;
+	//private Player player = null;
+	private Creature noob_creature=null;
+	private static StendhalRPZone playerzone;
+	private static int xpos = 10;
+	private static int ypos = 10;
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		Log4J.init();
@@ -49,13 +56,25 @@ public class PipeTest {
 	
 //	Set Up to the conditions required to check feature 
 //	@Before
-//	public void setUp() // Took inspirations from FruitsForCoraliaTest.java
-//	{
-////		PlayerTestHelper.generateCreatureRPClasses();
-//		
-//		final Player noob_player = PlayerTestHelper.createPlayer("bob");
-//		
-//	}
+	public void setUp() // Took inspirations from FruitsForCoraliaTest.java
+	{
+//		PlayerTestHelper.generateCreatureRPClasses();
+	
+		//final Player noob_player = PlayerTestHelper.createPlayer("player");
+//		player = PlayerTestHelper.createPlayer("player");
+		//PlayerTestHelper.registerPlayer(noob_player);
+		
+		
+		playerzone = new StendhalRPZone("int_semos_guard_house",100,100);
+		SingletonRepository.getRPWorld().addRPZone(playerzone);
+
+
+		CreatureTestHelper.generateRPClasses();
+		noob_creature = SingletonRepository.getEntityManager().getCreature("skeleton");
+		StendhalRPAction.placeat(playerzone, noob_creature, xpos+2, ypos+1);
+		
+	}
+	
 	
 	
 	
@@ -99,56 +118,50 @@ public class PipeTest {
 		noob_player.equip("bag",noob_pipe);
 		noob_player.equip("lhand", noob_pipe);
 	}
-	
-	
-	
-	
-	/**
-	 * Tests for describe.
-	 */
 	@Test
-	public void testDescribe() {
-		final RingOfLife ring = new RingOfLife();
-		assertThat(ring.isBroken(), is(false));
-		assertThat(ring.describe(), is("You see an §'emerald ring', known as the ring of life. Wear it, and you risk less from death."));
+	public void isPipeinRightHand() throws Exception
+	{
+		
+		//setUp();
+		final Player noob_player = PlayerTestHelper.createPlayer("bob");
+		String name="pipe";
+		String clazz ="";
+		String subclass="";
+		Map<String,String> attributes =new HashMap<String,String>();
+		Pipe noob_pipe= new Pipe(name,clazz,subclass,attributes);
+		noob_player.equip("bag",noob_pipe);
+		noob_player.equip("rhand", noob_pipe);
+//		assertTrue(player.isEquipped("pipe of charming"));
+	}
+//	@Test
+	public void isPipeWorkingOnBeingInBagOrInEitherHands() throws Exception
+	{
+		
+		setUp();
+		
 
-		ring.damage();
-		assertThat(ring.isBroken(), is(true));
-		assertThat(ring.describe(), is("You see an §'emerald ring', known as the ring of life. The gleam is lost from the stone and it has no powers."));
+		
+		Player noob_player = PlayerTestHelper.createPlayer("bob");
+		noob_player.teleport(playerzone, xpos, ypos, null, noob_player);
+		noob_creature.setTarget(noob_player);
+		String name="pipe";
+		String clazz ="";
+		String subclass="";
+		Map<String,String> attributes =new HashMap<String,String>();
+		Pipe noob_pipe= new Pipe(name,clazz,subclass,attributes);
+		noob_player.equip("bag",noob_pipe);
+		noob_player.equip("rhand", noob_pipe);
+		assertEquals(noob_player.isAttacked(), false);
+		
+//		assertTrue(player.isEquipped("pipe of charming"));
 	}
 
-	/**
-	 * Tests for onUsed.
-	 */
-	@Test
-	public void testOnUsed() {
-		final RingOfLife ring = new RingOfLife();
-		assertThat(ring.isBroken(), is(false));
-		assertThat(ring.describe(), is("You see an §'emerald ring', known as the ring of life. Wear it, and you risk less from death."));
 
-		ring.onUsed(null);
-		assertThat(ring.isBroken(), is(false));
-		assertThat(ring.describe(), is("You see an §'emerald ring', known as the ring of life. Wear it, and you risk less from death."));
-	}
+
+	
 
 
 
-	/**
-	 * Tests for repair.
-	 */
-	@Test
-	public void testRepair() {
-		final RingOfLife ring = new RingOfLife();
-		assertThat(ring.isBroken(), is(false));
-		assertThat(ring.describe(), is("You see an §'emerald ring', known as the ring of life. Wear it, and you risk less from death."));
-
-		ring.damage();
-		assertThat(ring.isBroken(), is(true));
-		assertThat(ring.describe(), is("You see an §'emerald ring', known as the ring of life. The gleam is lost from the stone and it has no powers."));
-
-		ring.repair();
-		assertThat(ring.isBroken(), is(false));
-		assertThat(ring.describe(), is("You see an §'emerald ring', known as the ring of life. Wear it, and you risk less from death."));
-	}
+	
 
 }
