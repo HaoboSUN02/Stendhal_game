@@ -109,6 +109,25 @@ public class BankNPC implements ZoneConfigurator {
 		ladynpc.setDirection(Direction.DOWN);
 		ladynpc.setPosition(17, 31);
 		ladynpc.initHP(100);
+//		ladynpc.add(ConversationStates.ATTENDING,
+//		"statements",
+//		new QuestNotStartedCondition(QUEST_SLOT),
+//		ConversationStates.ATTENDING,
+//		null,
+//		new ChatAction() {
+//	//new action for to update bank slots page
+//	@Override
+//	public void fire(final Player player, final Sentence sentence, final EventRaiser npc) {
+//		// code to get bank slot information goes here
+//		
+//		// code to put bank slot information in travel log page for bank statements
+//		// using progress log controller?
+		// ladynpc.say("Your items have been added to the bank statement");
+//		
+//		
+//		
+//	}
+//});
 		zone.add(ladynpc);
 	}
 }
