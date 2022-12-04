@@ -17,17 +17,11 @@ import java.util.List;
 import java.util.Map;
 
 import games.stendhal.common.Direction;
-import games.stendhal.common.parser.Sentence;
 import games.stendhal.server.core.config.ZoneConfigurator;
 import games.stendhal.server.core.engine.StendhalRPZone;
 import games.stendhal.server.core.pathfinder.FixedPath;
 import games.stendhal.server.core.pathfinder.Node;
-import games.stendhal.server.entity.npc.ChatAction;
-import games.stendhal.server.entity.npc.ConversationPhrases;
-import games.stendhal.server.entity.npc.ConversationStates;
-import games.stendhal.server.entity.npc.EventRaiser;
 import games.stendhal.server.entity.npc.SpeakerNPC;
-import games.stendhal.server.entity.player.Player;
 
 /**
  * Builds the nalwor bank npcs.
@@ -115,25 +109,6 @@ public class BankNPC implements ZoneConfigurator {
 		ladynpc.setDirection(Direction.DOWN);
 		ladynpc.setPosition(17, 31);
 		ladynpc.initHP(100);
-//		ladynpc.add(ConversationStates.ATTENDING,
-//				"statements",
-//				new QuestNotStartedCondition(QUEST_SLOT),
-//				ConversationStates.ATTENDING,
-//				null,
-//				new ChatAction() {
-//			//new action for to update bank slots page
-//			@Override
-//			public void fire(final Player player, final Sentence sentence, final EventRaiser npc) {
-//				// code to get bank slot information goes here
-//				
-//				// code to put bank slot information in travel log page for bank statements
-//				// using progress log controller?
-				//ladynpc.say("Your items have been added to the bank statement");
-//				
-//				
-//				
-//			}
-//});
 		zone.add(ladynpc);
 	}
 }
