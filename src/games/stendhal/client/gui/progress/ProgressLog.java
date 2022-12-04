@@ -50,6 +50,7 @@ import games.stendhal.client.gui.textformat.HtmlPreprocessor;
 import games.stendhal.client.gui.wt.core.SettingChangeAdapter;
 import games.stendhal.client.gui.wt.core.WtWindowManager;
 import games.stendhal.client.sprite.DataLoader;
+//import games.stendhal.client.gui.progress.*;
 
 /**
  * Progress status window. For displaying quest information.
@@ -127,6 +128,8 @@ class ProgressLog {
 			tabs.add(page, content);
 			this.pages.add(content);
 		}
+		BankPage statement = new BankPage();
+		tabs.add(statement);
 	}
 
 	/**
@@ -484,7 +487,7 @@ class ProgressLog {
 	/**
 	 * A HTML JEditorPane with a background image.
 	 */
-	private static class PrettyEditorPane extends JEditorPane {
+	public static class PrettyEditorPane extends JEditorPane {
 		/** Painter for the background. */
 		private final BackgroundPainter background;
 

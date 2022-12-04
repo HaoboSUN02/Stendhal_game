@@ -4,7 +4,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
+//import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -23,25 +23,21 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.text.Caret;
 import javax.swing.text.DefaultCaret;
 
-import games.stendhal.client.gui.j2d.BackgroundPainter;
+//import games.stendhal.client.gui.j2d.BackgroundPainter;
 import games.stendhal.client.gui.layout.SBoxLayout;
 import games.stendhal.client.gui.layout.SLayout;
 import games.stendhal.client.gui.textformat.HtmlPreprocessor;
 //import games.stendhal.server.entity.player.*;
 //import marauroa.common.game.RPObject;
 //import marauroa.common.game.RPSlot;
+//import games.stendhal.server.entity.slot.*;
+//import java.util.ArrayList;
 
 
-class BankStatement {
-	
-	private static final int INDEX_WIDTH = 180;
-	/** Image used for the log background. */
-	private static final String BACKGROUND_IMAGE = "data/gui/scroll_background.png";
-
-	/**
-	 * A page on the window.
-	 */
-	public class BankPage extends JComponent implements HyperlinkListener {
+public class BankPage extends JComponent implements HyperlinkListener {
+		private static final int INDEX_WIDTH = 180;
+		/** Image used for the log background. */
+		//private static final String BACKGROUND_IMAGE = "data/gui/scroll_background.png";
 		/** Html area for the subjects. */
 		private final JEditorPane indexArea;
 		/** The html area. */
@@ -69,13 +65,13 @@ class BankStatement {
 		/**
 		 * Create a new page.
 		 */
-		BankPage() {
+		public BankPage() {
 			this.setLayout(new SBoxLayout(SBoxLayout.VERTICAL));
 			JComponent panels = SBoxLayout.createContainer(SBoxLayout.HORIZONTAL, SBoxLayout.COMMON_PADDING);
 			add(panels, SBoxLayout.constraint(SLayout.EXPAND_X,
 					SLayout.EXPAND_Y));
 
-			indexArea = new PrettyEditorPane();
+			indexArea = new ProgressLog.PrettyEditorPane();
 			indexArea.addHyperlinkListener(this);
 
 			indexScrollPane = new JScrollPane(indexArea);
@@ -90,7 +86,7 @@ class BankStatement {
 
 			panels.add(indexScrollPane, SLayout.EXPAND_Y);
 
-			contentArea = new PrettyEditorPane();
+			contentArea = new ProgressLog.PrettyEditorPane();
 			// Does not need a listener. There should be no links
 
 			contentScrollPane = new JScrollPane(contentArea);
@@ -293,14 +289,14 @@ class BankStatement {
 	/**
 	 * A HTML JEditorPane with a background image.
 	 */
-	private static class PrettyEditorPane extends JEditorPane {
+	//final static class PrettyEditorPane extends JEditorPane {
 		/** Painter for the background. */
-		private final BackgroundPainter background;
+		//private final BackgroundPainter background;
 
 		/**
 		 * Create a new PrettyEditorPane.
 		 */
-		public PrettyEditorPane() {
+		/**public PrettyEditorPane() {
 			background = new BackgroundPainter(BACKGROUND_IMAGE);
 			setOpaque(false);
 			setContentType("text/html");
@@ -312,25 +308,27 @@ class BankStatement {
 			background.paint(g, getWidth(), getHeight());
 			super.paintComponent(g);
 		}
-	}
+		} **/
 	
 	
 	//create BankStatement method
-	/**public void createBankStatement() {
+	/**public void createBankStatement(Banks bank, ChestSlot chestSlot) {
 
 		BankStatement bankStatement = new BankStatement();
 		BankPage bankPage = new BankPage();
 		bankPage.setContent(SlotName, BACKGROUND_IMAGE, BACKGROUND_IMAGE, null);
 		
-		Chest chest = new Chest();
-		String SlotName = slot.getName();
+		ArrayList<String> Slots = new ArrayList<String>(); // Create an ArrayList object
+		Slots.add(ChestSlot.getName());
+		
+		Chest.getContents();
+		String SlotName = ChestSlot.getName();
 		RPSlot content = Chest.getSlot("content");
 		
 		Chest.size();
-		Chest.getContent(); //returns Iterator<RPObject>
+		Chest.getContent(); //returns Iterator<RPObject> **/
 		
 	
-	} **/
+	 
 
 
-}
