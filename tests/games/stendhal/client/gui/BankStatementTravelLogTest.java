@@ -19,9 +19,9 @@ import utilities.QuestHelper;
 public class BankStatementTravelLogTest {
 	
 	//Testing the bank npcs in the fado and nalwor bank for bank statements
-	//Have to test the third bank npc in a different file, as there are two different
+	//Have to test the hird bank npc in a different file, as there are two different
 	//bank npcs in different zones both called BankNPC.java, which creates a clash
-	//when trying to import them both into the same file 
+	//when tryig to import them both into the same file 
 	
 	private static final String EXPECTED_REPLY = "Your items have been added to the bank statement";
 	private Engine en = null;
