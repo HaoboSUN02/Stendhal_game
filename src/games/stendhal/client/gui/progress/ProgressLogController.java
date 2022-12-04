@@ -49,7 +49,7 @@ public class ProgressLogController {
 	/**
 	 * Create a new ProgressLogController.
 	 */
-	private ProgressLogController() {
+	public ProgressLogController() {
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class ProgressLogController {
 	 *
 	 * @return log window
 	 */
-	private ProgressLog getProgressLog() {
+	public ProgressLog getProgressLog() {
 		if (progressLog == null) {
 			progressLog = new ProgressLog(Grammar.suffix_s(User.getCharacterName()) + " travel log");
 		}

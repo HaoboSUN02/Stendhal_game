@@ -1,14 +1,3 @@
-/***************************************************************************
- *                   (C) Copyright 2003-2010 - Stendhal                    *
- ***************************************************************************
- ***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
 package games.stendhal.client.gui.progress;
 
 import java.awt.Component;
@@ -16,195 +5,43 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+//import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.Caret;
 import javax.swing.text.DefaultCaret;
 
-import games.stendhal.client.gui.WindowUtils;
-import games.stendhal.client.gui.j2DClient;
 import games.stendhal.client.gui.j2d.BackgroundPainter;
 import games.stendhal.client.gui.layout.SBoxLayout;
 import games.stendhal.client.gui.layout.SLayout;
 import games.stendhal.client.gui.textformat.HtmlPreprocessor;
-import games.stendhal.client.gui.wt.core.SettingChangeAdapter;
-import games.stendhal.client.gui.wt.core.WtWindowManager;
-import games.stendhal.client.sprite.DataLoader;
+//import games.stendhal.server.entity.player.*;
+//import marauroa.common.game.RPObject;
+//import marauroa.common.game.RPSlot;
 
-/**
- * Progress status window. For displaying quest information.
- */
-class ProgressLog {
-	/** Width of the window content. */
-	private static final int PAGE_WIDTH = 450;
-	/** Height of the window content. */
-	private static final int PAGE_HEIGHT = 300;
-	/** Width of the index area of a page. */
+
+class BankStatement {
+	
 	private static final int INDEX_WIDTH = 180;
 	/** Image used for the log background. */
 	private static final String BACKGROUND_IMAGE = "data/gui/scroll_background.png";
-	/** Name of the font used for the html areas. Should match the file name without .ttf */
-	private static final String FONT_NAME = "BlackChancery";
-	/** Image data element for marking repeatable quests. */
-	private static final String IMAGE = "<img border=\"0\" style=\"border-style: none\" src='" + DataLoader.getResource("data/gui/rp.png").toString() + "'/>";
-
-	/** The enclosing window. */
-	private JDialog window;
-	/** Category tabs. */
-	private final JTabbedPane tabs;
-	/** Content pages. */
-	private final List<Page> pages = new ArrayList<Page>();
-	/** Name of the font used. Defaults to {@link #FONT_NAME}. */
-	private String fontName;
-	/** Repeatable, completed quests. */
-	private Collection<String> repeatable = Collections.emptySet();
-
-	/**
-	 * Create a new ProgressLog.
-	 *
-	 * @param name name of the window
-	 */
-	ProgressLog(String name) {
-		window = new JDialog(j2DClient.get().getMainFrame(), name);
-
-		tabs = new JTabbedPane();
-		tabs.setPreferredSize(new Dimension(PAGE_WIDTH, PAGE_HEIGHT));
-		tabs.addChangeListener(new TabChangeListener());
-
-		WindowUtils.closeOnEscape(window);
-		window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		window.add(tabs);
-		window.pack();
-		WindowUtils.watchFontSize(window);
-		WindowUtils.trackLocation(window, "travel_log", true);
-
-		WtWindowManager.getInstance().registerSettingChangeListener("ui.logfont",
-				new SettingChangeAdapter("ui.logfont", FONT_NAME) {
-			@Override
-			public void changed(String newValue) {
-				fontName = newValue;
-				for (Page page : pages) {
-					page.setFontName(newValue);
-				}
-			}
-		});
-	}
-
-	/**
-	 * Set the available categories.
-	 *
-	 * @param pages category list
-	 * @param query query for retrieving the index lists for the pages. Page
-	 *	name will be used as the query parameter
-	 */
-	void setPages(List<String> pages, ProgressStatusQuery query) {
-		tabs.removeAll();
-		this.pages.clear();
-		for (String page : pages) {
-			Page content = new Page();
-			content.setFontName(fontName);
-			content.setIndexQuery(query, page);
-			tabs.add(page, content);
-			this.pages.add(content);
-		}
-	}
-
-	/**
-	 * Set the subject index for a given page.
-	 *
-	 * @param page category
-	 * @param subjects index of available subjects
-	 * @param onClick query for retrieving the data for a given subject. Subject
-	 * 	name will be used as the query parameter
-	 */
-	void setPageIndex(String page, List<String> subjects, ProgressStatusQuery onClick) {
-		int index = tabs.indexOfTab(page);
-		if (index != -1) {
-			Component comp = tabs.getComponent(index);
-			if (comp instanceof Page) {
-				((Page) comp).setIndex(subjects, onClick, repeatable);
-			}
-		}
-	}
-
-	/**
-	 * Set the descriptive content for a given page.
-	 *
-	 * @param page category
-	 * @param header subject header. This will be shown as a html header for the
-	 * content paragraph
-	 * @param description a description about the items shown between the header and the list
-	 * @param information information
-	 * @param contents content paragraphs
-	 */
-	void setPageContent(String page, String header, String description, String information, List<String> contents) {
-		int index = tabs.indexOfTab(page);
-		if (index != -1) {
-			Component comp = tabs.getComponent(index);
-			if (comp instanceof Page) {
-				boolean rep = repeatable.contains(header);
-				((Page) comp).setContent(header, description, information, contents, rep);
-			}
-		}
-	}
-
-	/**
-	 * Set the repeatable quests. These will be marked for the player in the
-	 * progress log.
-	 *
-	 * @param repeatable a collection of quest names
-	 */
-	void setRepeatable(Collection<String> repeatable) {
-		this.repeatable = repeatable;
-	}
-
-	/**
-	 * Get the window component.
-	 *
-	 * @return travel log window
-	 */
-	public Window getWindow() {
-		return window;
-	}
-
-	/**
-	 * Listener for tab changes. Requests the page to update its index when it's
-	 * selected.
-	 */
-	private class TabChangeListener implements ChangeListener {
-		@Override
-		public void stateChanged(ChangeEvent event) {
-			Component selected = tabs.getSelectedComponent();
-			if (selected instanceof Page) {
-				((Page) selected).update();
-			}
-		}
-	}
 
 	/**
 	 * A page on the window.
 	 */
-	public class Page extends JComponent implements HyperlinkListener {
+	public class BankPage extends JComponent implements HyperlinkListener {
 		/** Html area for the subjects. */
 		private final JEditorPane indexArea;
 		/** The html area. */
@@ -226,10 +63,13 @@ class ProgressLog {
 		/** Name of the font. */
 		private String fontName;
 
+		
+
+		
 		/**
 		 * Create a new page.
 		 */
-		Page() {
+		BankPage() {
 			this.setLayout(new SBoxLayout(SBoxLayout.VERTICAL));
 			JComponent panels = SBoxLayout.createContainer(SBoxLayout.HORIZONTAL, SBoxLayout.COMMON_PADDING);
 			add(panels, SBoxLayout.constraint(SLayout.EXPAND_X,
@@ -278,12 +118,15 @@ class ProgressLog {
 			closeButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					getWindow().dispose();
+					ProgressLog bankLog = new ProgressLog("");
+					bankLog.getWindow().dispose();
 				}
 			});
 			buttonBox.add(closeButton);
 		}
 
+	
+		
 		/**
 		 * Update the page from the latest data from the server.
 		 */
@@ -294,17 +137,6 @@ class ProgressLog {
 			if (contentQuery != null && (contentQueryData != null)) {
 				contentQuery.fire(contentQueryData);
 			}
-		}
-
-		/**
-		 * Set the query information for updating the the index.
-		 *
-		 * @param query query object
-		 * @param queryData additional data for the query
-		 */
-		void setIndexQuery(ProgressStatusQuery query, String queryData) {
-			this.indexQuery = query;
-			this.indexQueryData = queryData;
 		}
 
 		/**
@@ -338,48 +170,32 @@ class ProgressLog {
 		/**
 		 * Set the subject index.
 		 *
-		 * @param subjects list of subjects available on this page
-		 * @param onClick query to be used for requesting data for a subject.
-		 *	Subject name will be used as the query parameter
-		 * @param repeatable names of repeatable quests
+		 * @param slots list of slots available on this page
+
 		 */
-		void setIndex(List<String> subjects, ProgressStatusQuery onClick, Collection<String> repeatable) {
+		
+		//Index for bank statement
+		public void setBankIndex(List<String> slots) {
 			/*
-			 * Order the quests alphabetically. The server provides them ordered
+			 * Order the slot alphabetically. The server provides them ordered
 			 * by internal name (and does not really guarantee even that), not
 			 * by the human readable name.
 			 */
-			Collections.sort(subjects);
+			Collections.sort(slots);
 			StringBuilder text = new StringBuilder("<html>");
 			text.append(createStyleDefinition());
-			for (String elem : subjects) {
+			for (String elem : slots) {
 				text.append("<p>");
-				// Make the elements clickable only if we have a handler for the
-				// clicks
-				if (onClick != null) {
 					text.append("<a href=\"");
 					text.append(elem);
 					text.append("\">");
 					text.append(elem);
-					// Mark any possible repeatable quests
-					if (repeatable.contains(elem)) {
-						text.append(IMAGE);
-					}
 					text.append("</a>");
-				} else {
-					text.append(elem);
-					// Mark any possible repeatable quests
-					if (repeatable.contains(elem)) {
-						text.append(IMAGE);
-					}
 				}
-			}
 			text.append("</html>");
-			contentQuery = onClick;
-
+			
 			indexArea.setText(text.toString());
 		}
-		
 
 		/**
 		 * StyleSheet for the scroll html areas. Margins are needed to avoid
@@ -406,22 +222,15 @@ class ProgressLog {
 		 * 	repeatable, otherwise <code>false</code>
 		 */
 		public void setContent(String header, String description, String information,
-				List<String> contents, boolean repeatable) {
+				List<String> contents) {
 			StringBuilder text = new StringBuilder("<html>");
 			text.append(createStyleDefinition());
 
 			// header
 			if (header != null) {
 				text.append("<h2>");
-				text.append(header);
+				text.append(header); 
 				text.append("</h2>");
-			}
-
-			if (repeatable) {
-				text.append("<p style=\"font-family:arial; color: #000080\"><b>");
-				text.append(IMAGE);
-				text.append("I can do this quest again.");
-				text.append("</b></p>");
 			}
 
 			// information
@@ -504,4 +313,24 @@ class ProgressLog {
 			super.paintComponent(g);
 		}
 	}
+	
+	
+	//create BankStatement method
+	/**public void createBankStatement() {
+
+		BankStatement bankStatement = new BankStatement();
+		BankPage bankPage = new BankPage();
+		bankPage.setContent(SlotName, BACKGROUND_IMAGE, BACKGROUND_IMAGE, null);
+		
+		Chest chest = new Chest();
+		String SlotName = slot.getName();
+		RPSlot content = Chest.getSlot("content");
+		
+		Chest.size();
+		Chest.getContent(); //returns Iterator<RPObject>
+		
+	
+	} **/
+
+
 }
