@@ -12,21 +12,21 @@
  ***************************************************************************/
 package games.stendhal.server.maps.ados.bank;
 
-import java.util.Iterator;
+//import java.util.Iterator;
 import java.util.Map;
 
 import games.stendhal.common.Direction;
-import games.stendhal.common.parser.Sentence;
+//import games.stendhal.common.parser.Sentence;
 import games.stendhal.server.core.config.ZoneConfigurator;
 import games.stendhal.server.core.engine.StendhalRPZone;
 import games.stendhal.server.entity.RPEntity;
-import games.stendhal.server.entity.npc.ChatAction;
-import games.stendhal.server.entity.npc.ConversationStates;
-import games.stendhal.server.entity.npc.EventRaiser;
+//import games.stendhal.server.entity.npc.ChatAction;
+//import games.stendhal.server.entity.npc.ConversationStates;
+//import games.stendhal.server.entity.npc.EventRaiser;
 import games.stendhal.server.entity.npc.SpeakerNPC;
-import games.stendhal.server.entity.player.Player;
-import marauroa.common.game.RPObject;
-import marauroa.common.game.RPSlot;
+//import games.stendhal.server.entity.player.Player;
+//import marauroa.common.game.RPObject;
+//import marauroa.common.game.RPSlot;
 
 /**
  * Builds the Ados bank npc.
@@ -83,7 +83,7 @@ public class BankNPC implements ZoneConfigurator {
 		npc.setDirection(Direction.DOWN);
 		npc.setPosition(9, 4);
 		npc.initHP(100);
-		npc.add(ConversationStates.ATTENDING,
+	/**	npc.add(ConversationStates.ATTENDING,
 				"statements",
 				null,
 				ConversationStates.ATTENDING,
@@ -117,7 +117,7 @@ public class BankNPC implements ZoneConfigurator {
 				
 				
 			}
-		});
+		}); **/
 		zone.add(npc);
 
 	}
