@@ -151,18 +151,17 @@ public class handCartsTest {
 			assertEquals(hc_error.getX(), 1);
 			assertEquals(hc_error.getY(), 0);
 			
-			//add a obstacle
+			/*add a obstacle(when player try to move hand cart, 
+			 * if there are any thing near it, the move will fail.
+			 */
 			Obstacle o = new Obstacle();
 			o.setPosition(2,1);
 			zone.add(o, false);
 			
 			//push wrong, because obstacle
 			hc_error.push(player, Direction.RIGHT);
-			assertFalse(hc_error.getX(2));
+			assertFalse(hc_error.getX(2));	
 			assertFalse(hc_error.getY(1));
-			
-			
-			
 		
 			
 	}
