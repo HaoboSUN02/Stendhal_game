@@ -45,27 +45,7 @@
     </equipable>
   </item>
 
-<!-- disabled
-  <item name="antitoxin ring" condition="stendhal.testserver">
-    <type class="ring" subclass="antitoxin_ring" tileid="-1"/>
-    <description>You see an antitoxin ring. It is highly resistant to poison when worn on the finger.</description>
-    <implementation class-name="games.stendhal.server.entity.item.StatusResistantItem"/>
-    <attributes>
-      <status_resist slots="finger;" type="poisoned" value="0.75"/>
-      <min_level value="0"/>
-    </attributes>
-    <weight value="0.1"/>
-    <value value="1"/>
-    <equipable>
-      <slot name="ground"/>
-      <slot name="content"/>
-      <slot name="bag"/>
-      <slot name="trade"/>
-      <slot name="finger"/>
-      <slot name="keyring"/>
-    </equipable>
-  </item>
--->
+
 
   <item name="placid ring">
     <type class="ring" subclass="placid_ring" tileid="-1"/>
@@ -229,5 +209,53 @@
       <slot name="keyring"/>
     </equipable>
   </item>
-
+  
+  <item name="pipe of charm">
+    <type class="ring" subclass="pipe_of_charm" tileid="-1"/>
+    <description/>
+    <implementation class-name="games.stendhal.server.entity.item.Item"/>
+    <attributes>
+      <atk value="1"/>
+      <def value="1"/>
+    <min_level condition="stendhal.testserver" value="0"/>
+    </attributes>
+    <weight value="0.1"/>
+    <value value="1"/>
+    <!-- <preview>5</preview> -->
+    <equipable>
+      <slot name="ground"/>
+      <slot name="content"/>
+      <slot name="bag"/>
+      <slot name="trade"/>
+      <slot name="lhand"/>
+      <slot name="rhand"/>
+      
+    </equipable>
+  </item>
+  
+<!-- created a new pipe of charm as a ring// -->
+	 <item name="pipe of charm">
+    <type class="ring" subclass="pipe_of_charm" tileid="-1"/>
+    <description/>
+    <implementation class-name="games.stendhal.server.entity.item.Item"/>
+    <attributes>
+      <atk value="1"/>
+      <def value="1"/>
+    <min_level condition="stendhal.testserver" value="0"/>
+    </attributes>
+    <weight value="0.1"/>
+    <value value="1"/>
+    <!-- <preview>5</preview> -->
+    <equipable>
+      <slot name="ground"/>
+      <slot name="content"/>
+      <slot name="bag"/>
+      <slot name="trade"/>
+      <slot name="lhand"/>
+      <slot name="rhand"/>
+      
+    </equipable>
+  </item>
+  
+  
 </items>

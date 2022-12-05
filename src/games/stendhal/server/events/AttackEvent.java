@@ -56,6 +56,7 @@ public class AttackEvent extends RPEvent {
 	 */
 	public AttackEvent(boolean canHit, int damage, Nature type, String weapon, boolean ranged) {
 		super(Events.ATTACK);
+		
 		if (canHit) {
 			put(HIT_ATTR, "");
 		}
