@@ -83,6 +83,7 @@ public class BankNPC implements ZoneConfigurator {
 		npc.setDirection(Direction.DOWN);
 		npc.setPosition(9, 4);
 		npc.initHP(100);
+		//adding a fsm for npc to react to statements
 		npc.add(ConversationStates.ATTENDING,
 				"statements",
 				null,

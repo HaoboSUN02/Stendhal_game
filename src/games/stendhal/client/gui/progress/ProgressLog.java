@@ -128,6 +128,7 @@ class ProgressLog {
 			tabs.add(page, content);
 			this.pages.add(content);
 		}
+		//added bank statement tab to progress log pages
 		BankPage statement = new BankPage();
 		tabs.add("Bank Statement",statement);
 	}

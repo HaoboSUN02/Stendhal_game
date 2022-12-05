@@ -79,6 +79,7 @@ public class TellerNPC implements ZoneConfigurator {
 		bankNPC.setPosition(15, 3);
 		bankNPC.initHP(1000);
 		bankNPC.setDescription("Yance is the Fado bank manager. He can give advice on how to use the chests.");
+		//added fsm for Yance to react to statements dialogue and cause bank statement update
 		bankNPC.add(ConversationStates.ATTENDING,
 				"statements",
 				null,
