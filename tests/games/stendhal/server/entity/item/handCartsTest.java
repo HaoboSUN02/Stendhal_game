@@ -1,4 +1,16 @@
 /* $Id$ */
+/***************************************************************************
+ *                   (C) Copyright 2003-2010 - Stendhal                    *
+ ***************************************************************************
+ ***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
 package games.stendhal.server.entity.item;
 
 import static org.junit.Assert.assertFalse;
@@ -26,11 +38,11 @@ public class handCartsTest {
 		ItemTestHelper.generateRPClasses();
 		Log4J.init();
 	}
+	
 		
-		
-		//test if the hand carts create
-		//@Test
-		public final void testExecute(){
+	//test if the hand carts create
+	//@Test
+	public void testExecute(){
 			
 			final HandCart hc = new HandCart();
 			final StendhalRPZone zone = new StendhalRPZone("zone", 10, 10);
@@ -45,14 +57,14 @@ public class handCartsTest {
 			assertEquals(hc.getX(), 1);
 			assertEquals(hc.getY(), 1);		
 			
-		}
+	}
 		
-		//test if hand carts move
-		public void testForPush() {
+	//test if hand carts move
+	public void testForPush() {
 			
-			HandCart hc = new HandCart();
-			StendhalRPZone zone = new StendhalRPZone("zone", 10, 10);
-			games.stendhal.server.entity.player.Player player = PlayerTestHelper.createPlayer("user");
+			final HandCart hc = new HandCart();
+			final StendhalRPZone zone = new StendhalRPZone("zone", 10, 10);
+			final games.stendhal.server.entity.player.Player player = PlayerTestHelper.createPlayer("user");
 			
 			hc.setPosition(1,1);
 			
@@ -75,14 +87,14 @@ public class handCartsTest {
 			hc.push(player,Direction.DOWN);
 			assertEquals(hc.getX(), 1);
 			assertEquals(hc.getY(), 0);
-		}
+	}
 		
-		//test for multiPlayer push the hand cart
-		public void twoPushPlayer() {
+	//test for multiPlayer push the hand cart
+	public void twoPushPlayer() {
 			
-			HandCart hc = new HandCart();
-			StendhalRPZone zone = new StendhalRPZone("zone", 10, 10);
-			games.stendhal.server.entity.player.Player player = PlayerTestHelper.createPlayer("user");
+			final HandCart hc = new HandCart();
+			final StendhalRPZone zone = new StendhalRPZone("zone", 10, 10);
+			final games.stendhal.server.entity.player.Player player = PlayerTestHelper.createPlayer("user");
 			
 			hc.setPosition(1,1);
 			
@@ -107,14 +119,14 @@ public class handCartsTest {
 			hc.push(player,Direction.DOWN);
 			assertEquals(hc.getX(), 1);
 			assertEquals(hc.getY(), 0);
-		}
+	}
 		
-		//test hand cart collision when it moves
-		public void testForCollision() {
+	//test hand cart collision when it moves
+	public void testForCollision() {
 			
-			HandCart hc_error = new HandCart();
-			StendhalRPZone zone = new StendhalRPZone("zone", 10, 10);
-			games.stendhal.server.entity.player.Player player = PlayerTestHelper.createPlayer("user");
+			final HandCart hc_error = new HandCart();
+			final StendhalRPZone zone = new StendhalRPZone("zone", 10, 10);
+			final games.stendhal.server.entity.player.Player player = PlayerTestHelper.createPlayer("user");
 			
 			hc_error.setPosition(1,1);
 			
@@ -153,7 +165,7 @@ public class handCartsTest {
 			
 		
 			
-		}
+	}
 		
 		
 		
