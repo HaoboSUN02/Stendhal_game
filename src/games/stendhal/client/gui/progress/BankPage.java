@@ -286,47 +286,6 @@ public class BankPage extends JComponent implements HyperlinkListener {
 		}
 	}
 
-	/**
-	 * A HTML JEditorPane with a background image.
-	 */
-	//final static class PrettyEditorPane extends JEditorPane {
-		/** Painter for the background. */
-		//private final BackgroundPainter background;
-
-		/**
-		 * Create a new PrettyEditorPane.
-		 */
-		/**public PrettyEditorPane() {
-			background = new BackgroundPainter(BACKGROUND_IMAGE);
-			setOpaque(false);
-			setContentType("text/html");
-			setEditable(false);
-		}
-
-		@Override
-		protected void paintComponent(Graphics g) {
-			background.paint(g, getWidth(), getHeight());
-			super.paintComponent(g);
-		}
-		} **/
-	
-	
-	//create BankStatement method
-	/**public void createBankStatement(Banks bank, ChestSlot chestSlot) {
-
-		BankStatement bankStatement = new BankStatement();
-		BankPage bankPage = new BankPage();
-		bankPage.setContent(SlotName, BACKGROUND_IMAGE, BACKGROUND_IMAGE, null);
-		
-		ArrayList<String> Slots = new ArrayList<String>(); // Create an ArrayList object
-		Slots.add(ChestSlot.getName());
-		
-		Chest.getContents();
-		String SlotName = ChestSlot.getName();
-		RPSlot content = Chest.getSlot("content");
-		
-		Chest.size();
-		Chest.getContent(); //returns Iterator<RPObject> **/
 		
 	
 	 
