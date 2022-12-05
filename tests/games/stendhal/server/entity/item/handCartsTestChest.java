@@ -61,7 +61,6 @@ public class handCartsTestChest {
 			final HandCart hc = new HandCart();
 			final games.stendhal.server.entity.player.Player player = PlayerTestHelper.createPlayer("user");
 			
-			//when hand cart is opened
 			assertTrue(hc.isOpen());
 			
 			//when hand cart is used by player, hand carts which is opened is wrong
