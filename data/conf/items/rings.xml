@@ -229,6 +229,30 @@
       <slot name="keyring"/>
     </equipable>
   </item>
+  
+  <item name="pipe of charm">
+    <type class="ring" subclass="pipe_of_charm" tileid="-1"/>
+    <description/>
+    <implementation class-name="games.stendhal.server.entity.item.Item"/>
+    <attributes>
+      <atk value="1"/>
+      <def value="1"/>
+    <min_level condition="stendhal.testserver" value="0"/>
+    </attributes>
+    <weight value="0.1"/>
+    <value value="1"/>
+    <!-- <preview>5</preview> -->
+    <equipable>
+      <slot name="ground"/>
+      <slot name="content"/>
+      <slot name="bag"/>
+      <slot name="trade"/>
+      <slot name="lhand"/>
+      <slot name="rhand"/>
+      
+    </equipable>
+  </item>
+  
 
 	 <item name="pipe of charm">
     <type class="ring" subclass="pipe_of_charm" tileid="-1"/>

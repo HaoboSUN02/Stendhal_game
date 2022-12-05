@@ -915,6 +915,7 @@ public class Creature extends NPC {
 			if (strategy.hasValidTarget(this)) {
 				strategy.getBetterAttackPosition(this);
 				this.applyMovement();
+
 				if (strategy.canAttackNow(this)) {
 					if(this.getAttackTarget().isEquipped("pipe_of_charm")) {
 						stopAttack();

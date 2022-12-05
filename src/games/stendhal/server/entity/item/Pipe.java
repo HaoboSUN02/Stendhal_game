@@ -1,3 +1,4 @@
+
 package games.stendhal.server.entity.item;
 
 import java.util.Map;
