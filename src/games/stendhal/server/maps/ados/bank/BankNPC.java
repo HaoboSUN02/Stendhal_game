@@ -12,13 +12,21 @@
  ***************************************************************************/
 package games.stendhal.server.maps.ados.bank;
 
+import java.util.Iterator;
 import java.util.Map;
 
 import games.stendhal.common.Direction;
+import games.stendhal.common.parser.Sentence;
 import games.stendhal.server.core.config.ZoneConfigurator;
 import games.stendhal.server.core.engine.StendhalRPZone;
 import games.stendhal.server.entity.RPEntity;
+import games.stendhal.server.entity.npc.ChatAction;
+import games.stendhal.server.entity.npc.ConversationStates;
+import games.stendhal.server.entity.npc.EventRaiser;
 import games.stendhal.server.entity.npc.SpeakerNPC;
+import games.stendhal.server.entity.player.Player;
+import marauroa.common.game.RPObject;
+import marauroa.common.game.RPSlot;
 
 /**
  * Builds the Ados bank npc.
@@ -75,7 +83,44 @@ public class BankNPC implements ZoneConfigurator {
 		npc.setDirection(Direction.DOWN);
 		npc.setPosition(9, 4);
 		npc.initHP(100);
+		//adding a fsm for npc to react to statements
+		npc.add(ConversationStates.ATTENDING,
+				"statements",
+				null,
+				ConversationStates.ATTENDING,
+				"Your items have been added to the bank statement",
+				new ChatAction() {
+			//new action for to update bank slots page
+			@Override
+			public void fire(final Player player, final Sentence sentence, final EventRaiser npc) {
+				// code to get bank slot information goes here
+				RPSlot adosChest = player.getSlot("bank_ados");
+				Iterator<RPObject> items = adosChest.iterator();
+				
+				
+				
+				//loop through as long as there is a next object to visit
+				while (items.hasNext()) {
+					//get object
+					RPObject temp = items.next();
+					//attempt to get object name 
+					String test = temp.getID().toString();
+					
+					//for in-game testing purposes
+					npc.say(test);
+					
+				}
+				
+				
+				// code to put bank slot information in travel log page for bank statements
+				// using progress log controller?
+				
+				
+				
+			}
+		});
 		zone.add(npc);
 
 	}
 }
+

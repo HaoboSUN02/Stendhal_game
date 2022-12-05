@@ -50,6 +50,7 @@ import games.stendhal.client.gui.textformat.HtmlPreprocessor;
 import games.stendhal.client.gui.wt.core.SettingChangeAdapter;
 import games.stendhal.client.gui.wt.core.WtWindowManager;
 import games.stendhal.client.sprite.DataLoader;
+//import games.stendhal.client.gui.progress.*;
 
 /**
  * Progress status window. For displaying quest information.
@@ -127,6 +128,9 @@ class ProgressLog {
 			tabs.add(page, content);
 			this.pages.add(content);
 		}
+		//added bank statement tab to progress log pages
+		BankPage statement = new BankPage();
+		tabs.add("Bank Statement",statement);
 	}
 
 	/**
@@ -183,7 +187,7 @@ class ProgressLog {
 	 *
 	 * @return travel log window
 	 */
-	Window getWindow() {
+	public Window getWindow() {
 		return window;
 	}
 
@@ -204,7 +208,7 @@ class ProgressLog {
 	/**
 	 * A page on the window.
 	 */
-	private class Page extends JComponent implements HyperlinkListener {
+	public class Page extends JComponent implements HyperlinkListener {
 		/** Html area for the subjects. */
 		private final JEditorPane indexArea;
 		/** The html area. */
@@ -379,6 +383,7 @@ class ProgressLog {
 
 			indexArea.setText(text.toString());
 		}
+		
 
 		/**
 		 * StyleSheet for the scroll html areas. Margins are needed to avoid
@@ -404,7 +409,7 @@ class ProgressLog {
 		 * @param repeatable <code>true</code> if the quest should be marked
 		 * 	repeatable, otherwise <code>false</code>
 		 */
-		void setContent(String header, String description, String information,
+		public void setContent(String header, String description, String information,
 				List<String> contents, boolean repeatable) {
 			StringBuilder text = new StringBuilder("<html>");
 			text.append(createStyleDefinition());
@@ -483,7 +488,7 @@ class ProgressLog {
 	/**
 	 * A HTML JEditorPane with a background image.
 	 */
-	private static class PrettyEditorPane extends JEditorPane {
+	public static class PrettyEditorPane extends JEditorPane {
 		/** Painter for the background. */
 		private final BackgroundPainter background;
 
