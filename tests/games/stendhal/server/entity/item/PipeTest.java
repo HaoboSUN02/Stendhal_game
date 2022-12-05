@@ -132,7 +132,7 @@ public class PipeTest {
 	public void isPipeWorkingOnBeingInBag() throws Exception
 	{
 		//checking functionality in bag
-		setUp();
+		setUp();// to call the creature  and zone created
 		
 		Player noob_player = PlayerTestHelper.createPlayer("bob");
 		noob_player.teleport(playerzone, xpos, ypos, null, noob_player);
@@ -152,7 +152,7 @@ public class PipeTest {
 	public void isPipeWorkingOnBeingInRightHand() throws Exception
 	{
 		//checking functionality in right hand
-		setUp();
+		setUp();// to call the creature  and zone created
 		
 		Player noob_player = PlayerTestHelper.createPlayer("bob");
 		noob_player.teleport(playerzone, xpos, ypos, null, noob_player);
@@ -168,11 +168,11 @@ public class PipeTest {
 		
 	}
 	@Test
-	public void isPipeWorkingOnBeingInLightHand() throws Exception
+	public void isPipeWorkingOnBeingInLefttHand() throws Exception
 	{
 		//Checking functionality in left hand
 		
-		setUp();
+		setUp(); // to call the creature  and zone created
 		
 		Player noob_player = PlayerTestHelper.createPlayer("bob");
 		noob_player.teleport(playerzone, xpos, ypos, null, noob_player);
