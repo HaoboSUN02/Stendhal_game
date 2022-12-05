@@ -13,14 +13,19 @@
 
 package games.stendhal.server.entity.item;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static utilities.SpeakerNPCTestHelper.getReply;
 
 import org.junit.Test;
 
 import games.stendhal.client.entity.Player;
 import games.stendhal.common.Direction;
+import games.stendhal.server.core.engine.SingletonRepository;
 import games.stendhal.server.core.engine.StendhalRPZone;
+import games.stendhal.server.entity.npc.SpeakerNPC;
+import games.stendhal.server.entity.npc.fsm.Engine;
 import games.stendhal.server.maps.MockStendlRPWorld;
 import marauroa.common.Log4J;
 import utilities.PlayerTestHelper;
@@ -28,6 +33,9 @@ import utilities.RPClass.BlockTestHelper;
 import utilities.RPClass.ItemTestHelper;
 
 public class handCartsTest {
+	
+	private SpeakerNPC npc = null;
+	private Engine en = null;
 
 	//@BeforeClass
 	public static void setUpBeforeClass() {
@@ -165,11 +173,29 @@ public class handCartsTest {
 		
 			
 	}
+	
+	public void buyHandCart() {
+		
+		//we can buy hand cart from who
+		npc = SingletonRepository.getNPCList().get("farmer");
+		en = npc.getEngine();
+		final games.stendhal.server.entity.player.Player player = PlayerTestHelper.createPlayer("user");
+		
+		en.step(player, "hi");
+		assertEquals("What you want to buy?", getReply(npc));
+		en.step(player, "Hand cart");
+		assertEquals("What type of hand carts you want? 1. owenr $100; 2. pubilc $50", getReply(npc));
+		en.step(player, "1");
+		assertEquals("$100, do you buy?", getReply(npc));
+		en.step(player, "2");
+		assertEquals("$50, do you buy?", getReply(npc));
+		em.step(player, "yes");
+		assertEquals("Give you, thanks for your purchasing", getReply(npc));
+		en.step(player, "bye");
+		assertEquals("Bye, have a good day.", getReply(npc));
 		
 		
-		
-		
-		
-}
+		}
+	}
 
 
