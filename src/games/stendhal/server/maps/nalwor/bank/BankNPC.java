@@ -12,25 +12,25 @@
  ***************************************************************************/
 package games.stendhal.server.maps.nalwor.bank;
 
-//import java.util.Iterator;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import games.stendhal.common.Direction;
-//import games.stendhal.common.parser.Sentence;
+import games.stendhal.common.parser.Sentence;
 import games.stendhal.server.core.config.ZoneConfigurator;
 import games.stendhal.server.core.engine.StendhalRPZone;
 import games.stendhal.server.core.pathfinder.FixedPath;
 import games.stendhal.server.core.pathfinder.Node;
-//import games.stendhal.server.entity.npc.ChatAction;
-//import games.stendhal.server.entity.npc.ConversationStates;
-//import games.stendhal.server.entity.npc.EventRaiser;
+import games.stendhal.server.entity.npc.ChatAction;
+import games.stendhal.server.entity.npc.ConversationStates;
+import games.stendhal.server.entity.npc.EventRaiser;
 import games.stendhal.server.entity.npc.SpeakerNPC;
-//import games.stendhal.server.entity.player.Player;
+import games.stendhal.server.entity.player.Player;
 //import games.stendhal.server.entity.slot.BankSlot;
-//import marauroa.common.game.RPObject;
-//import marauroa.common.game.RPSlot;
+import marauroa.common.game.RPObject;
+import marauroa.common.game.RPSlot;
 
 /**
  * Builds the nalwor bank npcs.
@@ -118,7 +118,7 @@ public class BankNPC implements ZoneConfigurator {
 		ladynpc.setDirection(Direction.DOWN);
 		ladynpc.setPosition(17, 31);
 		ladynpc.initHP(100);
-		/**ladynpc.add(ConversationStates.ATTENDING,
+		ladynpc.add(ConversationStates.ATTENDING,
 		"statements",
 		null,
 		ConversationStates.ATTENDING,
@@ -153,6 +153,7 @@ public class BankNPC implements ZoneConfigurator {
 		
 	}
 });
-		zone.add(ladynpc);**/
+		zone.add(ladynpc);
 	}
 }
+

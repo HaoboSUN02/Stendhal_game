@@ -12,23 +12,23 @@
  ***************************************************************************/
 package games.stendhal.server.maps.fado.bank;
 
-//import java.util.Iterator;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-//import games.stendhal.common.parser.Sentence;
+import games.stendhal.common.parser.Sentence;
 import games.stendhal.server.core.config.ZoneConfigurator;
 import games.stendhal.server.core.engine.StendhalRPZone;
 import games.stendhal.server.core.pathfinder.FixedPath;
 import games.stendhal.server.core.pathfinder.Node;
-//import games.stendhal.server.entity.npc.ChatAction;
-//import games.stendhal.server.entity.npc.ConversationStates;
-//import games.stendhal.server.entity.npc.EventRaiser;
+import games.stendhal.server.entity.npc.ChatAction;
+import games.stendhal.server.entity.npc.ConversationStates;
+import games.stendhal.server.entity.npc.EventRaiser;
 import games.stendhal.server.entity.npc.SpeakerNPC;
-//import games.stendhal.server.entity.player.Player;
-//import marauroa.common.game.RPObject;
-//import marauroa.common.game.RPSlot;
+import games.stendhal.server.entity.player.Player;
+import marauroa.common.game.RPObject;
+import marauroa.common.game.RPSlot;
 
 /**
  * Builds the bank teller NPC.
@@ -79,7 +79,7 @@ public class TellerNPC implements ZoneConfigurator {
 		bankNPC.setPosition(15, 3);
 		bankNPC.initHP(1000);
 		bankNPC.setDescription("Yance is the Fado bank manager. He can give advice on how to use the chests.");
-		/**bankNPC.add(ConversationStates.ATTENDING,
+		bankNPC.add(ConversationStates.ATTENDING,
 				"statements",
 				null,
 				ConversationStates.ATTENDING,
@@ -114,6 +114,7 @@ public class TellerNPC implements ZoneConfigurator {
 				
 			}
 		});
-		zone.add(bankNPC);**/
+		zone.add(bankNPC);
 	}
 }
+

@@ -1,32 +1,32 @@
 package games.stendhal.client.gui.progress;
 
-//import java.awt.Component;
-//import java.awt.Container;
-//import java.awt.Dimension;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 //import java.awt.Graphics;
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
-//import java.awt.event.KeyEvent;
-//import java.util.Collections;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.util.Collections;
 //import java.util.Iterator;
 import java.util.List;
 
-//import javax.swing.BorderFactory;
-//import javax.swing.JButton;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComponent;
-//import javax.swing.JEditorPane;
-//import javax.swing.JScrollPane;
-//import javax.swing.SwingUtilities;
+import javax.swing.JEditorPane;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
-//import javax.swing.text.Caret;
-//import javax.swing.text.DefaultCaret;
-//
-////import games.stendhal.client.gui.j2d.BackgroundPainter;
-//import games.stendhal.client.gui.layout.SBoxLayout;
-//import games.stendhal.client.gui.layout.SLayout;
-//import games.stendhal.client.gui.textformat.HtmlPreprocessor;
+import javax.swing.text.Caret;
+import javax.swing.text.DefaultCaret;
+
+//import games.stendhal.client.gui.j2d.BackgroundPainter;
+import games.stendhal.client.gui.layout.SBoxLayout;
+import games.stendhal.client.gui.layout.SLayout;
+import games.stendhal.client.gui.textformat.HtmlPreprocessor;
 //import games.stendhal.server.entity.player.*;
 //import marauroa.common.game.RPObject;
 //import marauroa.common.game.RPSlot;
@@ -39,13 +39,13 @@ public class BankPage extends JComponent implements HyperlinkListener {
 		/** Image used for the log background. */
 		//private static final String BACKGROUND_IMAGE = "data/gui/scroll_background.png";
 		/** Html area for the subjects. */
-	//	private final JEditorPane indexArea;
+		private final JEditorPane indexArea;
 		/** The html area. */
-	//	private final JEditorPane contentArea;
+		private final JEditorPane contentArea;
 		/** Scrolling component of the index area. */
-	//	private final JScrollPane indexScrollPane;
+		private final JScrollPane indexScrollPane;
 		/** Scrolling component of the content html area. */
-//		private final JScrollPane contentScrollPane;
+		private final JScrollPane contentScrollPane;
 
 		/** Query that is used to update the index area. */
 		private ProgressStatusQuery indexQuery;
@@ -65,8 +65,8 @@ public class BankPage extends JComponent implements HyperlinkListener {
 		/**
 		 * Create a new page.
 		 */
-		public void BankPage() {
-			/**this.setLayout(new SBoxLayout(SBoxLayout.VERTICAL));
+		public BankPage() {
+			this.setLayout(new SBoxLayout(SBoxLayout.VERTICAL));
 			JComponent panels = SBoxLayout.createContainer(SBoxLayout.HORIZONTAL, SBoxLayout.COMMON_PADDING);
 			add(panels, SBoxLayout.constraint(SLayout.EXPAND_X,
 					SLayout.EXPAND_Y));
@@ -118,7 +118,7 @@ public class BankPage extends JComponent implements HyperlinkListener {
 					bankLog.getWindow().dispose();
 				}
 			});
-			buttonBox.add(closeButton);**/
+			buttonBox.add(closeButton);
 		}
 
 	
@@ -127,12 +127,12 @@ public class BankPage extends JComponent implements HyperlinkListener {
 		 * Update the page from the latest data from the server.
 		 */
 		void update() {
-			/**if (indexQuery != null) {
+			if (indexQuery != null) {
 				indexQuery.fire(indexQueryData);
 			}
 			if (contentQuery != null && (contentQueryData != null)) {
 				contentQuery.fire(contentQueryData);
-			}**/
+			}
 		}
 
 		/**
@@ -141,15 +141,15 @@ public class BankPage extends JComponent implements HyperlinkListener {
 		 * @param font font name
 		 */
 		void setFontName(String font) {
-			/**fontName = font;
-			updateOnFontChange();**/
+			fontName = font;
+			updateOnFontChange();
 		}
 
 		@Override
 		public void setFont(Font font) {
-			/**super.setFont(font);
+			super.setFont(font);
 			// The font itself is not used, but the size is
-			updateOnFontChange();**/
+			updateOnFontChange();
 		}
 
 		/**
@@ -157,10 +157,10 @@ public class BankPage extends JComponent implements HyperlinkListener {
 		 * the font setting changed.
 		 */
 		private void updateOnFontChange() {
-			/**Container top = this.getTopLevelAncestor();
+			Container top = this.getTopLevelAncestor();
 			if (top != null && top.isVisible()) {
 				update();
-			}**/
+			}
 		}
 
 		/**
@@ -177,7 +177,7 @@ public class BankPage extends JComponent implements HyperlinkListener {
 			 * by internal name (and does not really guarantee even that), not
 			 * by the human readable name.
 			 */
-			/**Collections.sort(slots);
+			Collections.sort(slots);
 			StringBuilder text = new StringBuilder("<html>");
 			text.append(createStyleDefinition());
 			for (String elem : slots) {
@@ -190,7 +190,7 @@ public class BankPage extends JComponent implements HyperlinkListener {
 				}
 			text.append("</html>");
 			
-			indexArea.setText(text.toString());**/
+			indexArea.setText(text.toString());
 		}
 
 		/**
@@ -199,12 +199,12 @@ public class BankPage extends JComponent implements HyperlinkListener {
 		 *
 		 * @return style sheet
 		 */
-	//	private String createStyleDefinition() {
-			/**int fontSize = getFont().getSize() + 2;
+		private String createStyleDefinition() {
+			int fontSize = getFont().getSize() + 2;
 			return "<style type=\"text/css\">body {font-family:" + fontName
 					+ "; font-size:" + fontSize
-					+ "; margin:12px} p {margin:4px 0px} a {color:#a00000} li, ul {margin-left:10px}</style>";**/
-	//	}
+					+ "; margin:12px} p {margin:4px 0px} a {color:#a00000} li, ul {margin-left:10px}</style>";
+		}
 
 		/**
 		 * Set the page contents. Each of the content strings is shown as its
@@ -219,7 +219,7 @@ public class BankPage extends JComponent implements HyperlinkListener {
 		 */
 		public void setContent(String header, String description, String information,
 				List<String> contents) {
-			/**StringBuilder text = new StringBuilder("<html>");
+			StringBuilder text = new StringBuilder("<html>");
 			text.append(createStyleDefinition());
 
 			// header
@@ -262,29 +262,29 @@ public class BankPage extends JComponent implements HyperlinkListener {
 			 * otherwise the scroll event triggered by changing the text would run
 			 * after this.
 			 */
-		/**	SwingUtilities.invokeLater(new Runnable() {
+			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
 					contentScrollPane.getVerticalScrollBar().setValue(0);
 				}
-			});**/
+			});
 		}
 
 		@Override
 		public void hyperlinkUpdate(HyperlinkEvent event) {
-			/**if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-				
+			if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+				/*
 				 * It would be more correct to read the parameter from the link
 				 * target, but swing does not give access to that when it fails
 				 * to parse it as an URL.
-				 
+				 */
 				contentQueryData = event.getDescription();
 				if (contentQuery != null) {
 					contentQuery.fire(contentQueryData);
-				} **/
-			} 
+				}
+			}
 		}
-	
+	}
 
 	/**
 	 * A HTML JEditorPane with a background image.
@@ -327,6 +327,12 @@ public class BankPage extends JComponent implements HyperlinkListener {
 		
 		Chest.size();
 		Chest.getContent(); //returns Iterator<RPObject> **/
+		
+	
+	 
+
+
+
 		
 	
 	 
