@@ -41,7 +41,7 @@ public class BankStatementTravelLogTest {
 		final StendhalRPZone nalworBank = new StendhalRPZone("int_nalwor_bank");
 		final StendhalRPZone fadoBank = new StendhalRPZone("int_fado_bank");
 		new BankNPC().configureZone(nalworBank, null);
-		npc1 = SingletonRepository.getNPCList().get("Nnyddion");
+		npc1 = SingletonRepository.getNPCList().get("Grafindle");
 		new TellerNPC().configureZone(fadoBank, null);
 		npc2 = SingletonRepository.getNPCList().get("Yance");
 		en = npc1.getEngine();
