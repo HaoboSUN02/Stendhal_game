@@ -28,7 +28,6 @@ import games.stendhal.server.entity.npc.ConversationStates;
 import games.stendhal.server.entity.npc.EventRaiser;
 import games.stendhal.server.entity.npc.SpeakerNPC;
 import games.stendhal.server.entity.player.Player;
-import games.stendhal.server.entity.slot.BankSlot;
 import marauroa.common.game.RPObject;
 import marauroa.common.game.RPSlot;
 
@@ -135,18 +134,19 @@ public class BankNPC implements ZoneConfigurator {
 		while (items.hasNext()) {
 			//get object
 			RPObject temp = items.next();
+	
 			//attempt to get object name 
 			String test = temp.getID().toString();
+			ladynpc.say(test);
 			
 			//for in-game testing purposes
-			npc.say(test);
 			
 		}
 		
 		
 		// code to put bank slot information in travel log page for bank statements
 		// using progress log controller?
-		 ladynpc.say("Your items have been added to the bank statement");
+		
 		
 		
 		
