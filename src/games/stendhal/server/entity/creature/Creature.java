@@ -917,7 +917,7 @@ public class Creature extends NPC {
 				this.applyMovement();
 
 				if (strategy.canAttackNow(this)) {
-					if(this.getAttackTarget().isEquipped("pipe_of_charm")) {
+					if(this.getAttackTarget().isEquipped("pipe of charm")) {
 						stopAttack();
 					}
 					else {
