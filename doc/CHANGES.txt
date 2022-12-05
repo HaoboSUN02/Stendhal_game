@@ -1,6 +1,18 @@
 Changelog
 ---------
 ---------
+1.41uom
+*world*
+- Create different npcs for hand carts for selling called farmer.
+
+
+*clients*
+- Players can see some kind of bank statement feature to the Travel Log.
+- Players can have a pipe and will make creature stop attacking players.
+- Players can have a hand cart and there exists a common cart.
+
+
+
 1.40uom
 *world*
 - Six cadles is enough to complete the task without answering any other questions
