@@ -16,7 +16,7 @@ package games.stendhal.server.entity.item;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import games.stendhal.client.entity.RPEntity;
+//import games.stendhal.client.entity.RPEntity;
 import games.stendhal.server.maps.MockStendlRPWorld;
 import marauroa.common.Log4J;
 import utilities.PlayerTestHelper;
@@ -59,7 +59,7 @@ public class handCartsTestChest {
 		public void testForMoveClose() {
 			
 			final HandCart hc = new HandCart();
-			final games.stendhal.server.entity.player.Player player = PlayerTestHelper.createPlayer("user");
+//			final games.stendhal.server.entity.player.Player player = PlayerTestHelper.createPlayer("user");
 			
 			assertTrue(hc.isOpen());
 			

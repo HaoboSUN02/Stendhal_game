@@ -14,13 +14,13 @@
 package games.stendhal.server.entity.item;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
+//import static org.junit.Assert.assertFalse;
+//import static org.junit.Assert.assertThat
 import static utilities.SpeakerNPCTestHelper.getReply;
 
-import org.junit.Test;
+//import org.junit.Test;
 
-import games.stendhal.client.entity.Player;
+//import games.stendhal.client.entity.Player;
 import games.stendhal.common.Direction;
 import games.stendhal.server.core.engine.SingletonRepository;
 import games.stendhal.server.core.engine.StendhalRPZone;
