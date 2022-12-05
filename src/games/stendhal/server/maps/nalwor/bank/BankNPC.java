@@ -31,7 +31,6 @@ import games.stendhal.server.entity.player.Player;
 //import games.stendhal.server.entity.slot.BankSlot;
 import marauroa.common.game.RPObject;
 import marauroa.common.game.RPSlot;
-import games.stendhal.client.gui.progress.*;
 
 /**
  * Builds the nalwor bank npcs.
@@ -141,18 +140,14 @@ public class BankNPC implements ZoneConfigurator {
 			//attempt to get object name 
 			String test = temp.getID().toString();
 			
-			BankPage bankp = new BankPage();
-			bankp.setContent(test, test, test, items);
-			
 			//for in-game testing purposes
-			npc.say(test);
+			ladynpc.say(test);
 			
 		}
 		
 		
 		// code to put bank slot information in travel log page for bank statements
 		// using progress log controller?
-		 ladynpc.say("Your items have been added to the bank statement");
 		
 		
 		
