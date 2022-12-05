@@ -50,7 +50,7 @@ public class handCartsTest {
 		
 	//test if the hand carts create
 	//@Test
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation") 
 	public void testExecute(){
 			
 			final HandCart hc = new HandCart();
@@ -108,7 +108,7 @@ public class handCartsTest {
 			final games.stendhal.server.entity.player.Player player = PlayerTestHelper.createPlayer("user");
 			
 			hc.setPosition(1,1);
-			
+			//this is to add zone and setting the positions using coordinates
 			zone.add(hc);
 			assertEquals(hc.getX(), 1);
 			assertEquals(hc.getY(), 1);

@@ -35,27 +35,27 @@ public class handCartsTestChest {
 			Log4J.init();
 		}
 		
-		//test if the hand cart open or close
+		// this is for checking if the hand cart open or close
 		//@Test
 		public void testForOpen() {
 			
 			HandCart hc = new HandCart();
 			
-			//at the begin, the hand cart is closed
+			//for the begin,when the hand cart is closed
 			hc.close();
 			assertFalse(hc.isOpen());
 			
-			//open the hand cart
+			//for opening the hand cart
 			hc.isOpen();
 			assertTrue(hc.isOpen());
 			
-			//after that close the hand cart
+			//for closing the hand cart
 			hc.close();
 			assertFalse(hc.isOpen());
 			
 		}
 		
-		//test when hand carts move, the hand carts should close
+		//this is for when hand carts move, the hand carts should close
 		public void testForMoveClose() {
 			
 			final HandCart hc = new HandCart();
