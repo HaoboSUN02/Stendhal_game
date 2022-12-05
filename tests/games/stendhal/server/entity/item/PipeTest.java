@@ -134,12 +134,30 @@ public class PipeTest {
 //		assertTrue(player.isEquipped("pipe of charming"));
 	}
 //	@Test
-	public void isPipeWorkingOnBeingInBagOrInEitherHands() throws Exception
+	public void isPipeWorkingOnBeingInBag() throws Exception
 	{
 		
 		setUp();
 		
-
+		Player noob_player = PlayerTestHelper.createPlayer("bob");
+		noob_player.teleport(playerzone, xpos, ypos, null, noob_player);
+		noob_creature.setTarget(noob_player);
+		String name="pipe";
+		String clazz ="";
+		String subclass="";
+		Map<String,String> attributes =new HashMap<String,String>();
+		Pipe noob_pipe= new Pipe(name,clazz,subclass,attributes);
+		noob_player.equip("bag",noob_pipe);
+		//noob_player.equip("rhand", noob_pipe);
+		assertEquals(noob_player.isAttacked(), false);
+		
+//		assertTrue(player.isEquipped("pipe of charming"));
+	}
+	@Test
+	public void isPipeWorkingOnBeingInRightHand() throws Exception
+	{
+		
+		setUp();
 		
 		Player noob_player = PlayerTestHelper.createPlayer("bob");
 		noob_player.teleport(playerzone, xpos, ypos, null, noob_player);
@@ -153,7 +171,25 @@ public class PipeTest {
 		noob_player.equip("rhand", noob_pipe);
 		assertEquals(noob_player.isAttacked(), false);
 		
-//		assertTrue(player.isEquipped("pipe of charming"));
+	}
+	@Test
+	public void isPipeWorkingOnBeingInLightHand() throws Exception
+	{
+		
+		setUp();
+		
+		Player noob_player = PlayerTestHelper.createPlayer("bob");
+		noob_player.teleport(playerzone, xpos, ypos, null, noob_player);
+		noob_creature.setTarget(noob_player);
+		String name="pipe";
+		String clazz ="";
+		String subclass="";
+		Map<String,String> attributes =new HashMap<String,String>();
+		Pipe noob_pipe= new Pipe(name,clazz,subclass,attributes);
+		noob_player.equip("bag",noob_pipe);
+		noob_player.equip("lhand", noob_pipe);
+		assertEquals(noob_player.isAttacked(), false);
+		
 	}
 
 
