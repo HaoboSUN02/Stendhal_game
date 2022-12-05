@@ -28,9 +28,10 @@ import games.stendhal.server.entity.npc.ConversationStates;
 import games.stendhal.server.entity.npc.EventRaiser;
 import games.stendhal.server.entity.npc.SpeakerNPC;
 import games.stendhal.server.entity.player.Player;
-import games.stendhal.server.entity.slot.BankSlot;
+//import games.stendhal.server.entity.slot.BankSlot;
 import marauroa.common.game.RPObject;
 import marauroa.common.game.RPSlot;
+import games.stendhal.client.gui.progress.*;
 
 /**
  * Builds the nalwor bank npcs.
@@ -131,12 +132,17 @@ public class BankNPC implements ZoneConfigurator {
 		RPSlot nalworChest = player.getSlot("bank_nalwor");
 		Iterator<RPObject> items = nalworChest.iterator();
 		
+		
+		
 		//loop through as long as there is a next object to visit
 		while (items.hasNext()) {
 			//get object
 			RPObject temp = items.next();
 			//attempt to get object name 
 			String test = temp.getID().toString();
+			
+			BankPage bankp = new BankPage();
+			bankp.setContent(test, test, test, items);
 			
 			//for in-game testing purposes
 			npc.say(test);
