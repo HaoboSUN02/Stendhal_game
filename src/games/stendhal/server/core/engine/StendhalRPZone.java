@@ -57,6 +57,7 @@ import games.stendhal.server.entity.creature.BabyDragon;
 import games.stendhal.server.entity.creature.Creature;
 import games.stendhal.server.entity.creature.DomesticAnimal;
 import games.stendhal.server.entity.creature.Sheep;
+import games.stendhal.server.entity.item.HandCart;
 import games.stendhal.server.entity.item.Item;
 import games.stendhal.server.entity.mapstuff.area.WalkBlocker;
 import games.stendhal.server.entity.mapstuff.area.WalkBlockerFactory;
@@ -1974,5 +1975,15 @@ public class StendhalRPZone extends MarauroaRPZone {
 		}
 
 		return Arrays.asList(getAssociatedZones().split(","));
+	}
+
+	public void add(HandCart hc_error, boolean expire) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void add(HandCart hc) {
+		// TODO Auto-generated method stub
+		
 	}
 }

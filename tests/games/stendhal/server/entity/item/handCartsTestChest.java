@@ -13,6 +13,9 @@
 
 package games.stendhal.server.entity.item;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import games.stendhal.client.entity.RPEntity;
 import games.stendhal.server.maps.MockStendlRPWorld;
 import marauroa.common.Log4J;
@@ -39,11 +42,12 @@ public class handCartsTestChest {
 			HandCart hc = new HandCart();
 			
 			//at the begin, the hand cart is closed
+			hc.close();
 			assertFalse(hc.isOpen());
 			
 			//open the hand cart
-			hc.open();
-			aseertTrue(hc.isOpen());
+			hc.isOpen();
+			assertTrue(hc.isOpen());
 			
 			//after that close the hand cart
 			hc.close();
