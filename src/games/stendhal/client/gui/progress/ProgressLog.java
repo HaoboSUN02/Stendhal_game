@@ -129,7 +129,7 @@ class ProgressLog {
 			this.pages.add(content);
 		}
 		BankPage statement = new BankPage();
-		tabs.add(statement);
+		tabs.add("Bank Statement",statement);
 	}
 
 	/**
