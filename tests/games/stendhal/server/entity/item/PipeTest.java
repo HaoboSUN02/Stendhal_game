@@ -40,10 +40,10 @@ import utilities.RPClass.CreatureTestHelper;
 import utilities.RPClass.ItemTestHelper;
 
 public class PipeTest {
-	//private Player player = null;
+	// Created a global creature and zone 
 	private Creature noob_creature=null;
 	private static StendhalRPZone playerzone;
-	private static int xpos = 10;
+	private static int xpos = 10; //Created two global x and y pos variable
 	private static int ypos = 10;
 
 	@BeforeClass
@@ -54,15 +54,10 @@ public class PipeTest {
 
 	}
 	
-//	Set Up to the conditions required to check feature 
-//	@Before
+
 	public void setUp() // Took inspirations from FruitsForCoraliaTest.java
 	{
-//		PlayerTestHelper.generateCreatureRPClasses();
-	
-		//final Player noob_player = PlayerTestHelper.createPlayer("player");
-//		player = PlayerTestHelper.createPlayer("player");
-		//PlayerTestHelper.registerPlayer(noob_player);
+
 		
 		
 		playerzone = new StendhalRPZone("int_semos_guard_house",100,100);
@@ -82,7 +77,7 @@ public class PipeTest {
 	@Test
 	public void isPipeCreated() throws Exception // Throws an error if it is not able to create the pipe
 		{
-			
+		//checking if pipe can be created
 			String name="pipe";
 			String clazz ="";
 			String subclass="";
@@ -95,7 +90,7 @@ public class PipeTest {
 	public void isPipeinBag() throws Exception
 	{
 		
-		//setUp();
+		//checking if pipe in bag
 		final Player noob_player = PlayerTestHelper.createPlayer("bob");
 		String name="pipe";
 		String clazz ="";
@@ -108,7 +103,7 @@ public class PipeTest {
 	public void isPipeinLeftHand() throws Exception
 	{
 		
-		//setUp();
+		//checking if pipe in left hand
 		final Player noob_player = PlayerTestHelper.createPlayer("bob");
 		String name="pipe";
 		String clazz ="";
@@ -122,7 +117,7 @@ public class PipeTest {
 	public void isPipeinRightHand() throws Exception
 	{
 		
-		//setUp();
+		//checking if pipe in right hand
 		final Player noob_player = PlayerTestHelper.createPlayer("bob");
 		String name="pipe";
 		String clazz ="";
@@ -131,12 +126,12 @@ public class PipeTest {
 		Pipe noob_pipe= new Pipe(name,clazz,subclass,attributes);
 		noob_player.equip("bag",noob_pipe);
 		noob_player.equip("rhand", noob_pipe);
-//		assertTrue(player.isEquipped("pipe of charming"));
+
 	}
 //	@Test
 	public void isPipeWorkingOnBeingInBag() throws Exception
 	{
-		
+		//checking functionality in bag
 		setUp();
 		
 		Player noob_player = PlayerTestHelper.createPlayer("bob");
@@ -151,12 +146,12 @@ public class PipeTest {
 		//noob_player.equip("rhand", noob_pipe);
 		assertEquals(noob_player.isAttacked(), false);
 		
-//		assertTrue(player.isEquipped("pipe of charming"));
+
 	}
 	@Test
 	public void isPipeWorkingOnBeingInRightHand() throws Exception
 	{
-		
+		//checking functionality in right hand
 		setUp();
 		
 		Player noob_player = PlayerTestHelper.createPlayer("bob");
@@ -175,6 +170,7 @@ public class PipeTest {
 	@Test
 	public void isPipeWorkingOnBeingInLightHand() throws Exception
 	{
+		//Checking functionality in left hand
 		
 		setUp();
 		

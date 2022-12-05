@@ -253,7 +253,7 @@
     </equipable>
   </item>
   
-
+<!-- created a new pipe of charm as a ring// -->
 	 <item name="pipe of charm">
     <type class="ring" subclass="pipe_of_charm" tileid="-1"/>
     <description/>
